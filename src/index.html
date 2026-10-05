@@ -1,1 +1,36 @@
-yo
+<!DOCTYPE html>
+
+<html lang="lv">
+  <head>
+    <meta charset="UTF-8">
+    <title>tudu</title>
+    <script type="module" src="./scripts/script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!-- PROJECTS LIST-->
+    <template id="projects">
+      
+    </template>
+
+    <!-- TASK LIST-->
+      <h1>Mans projekts</h1>
+      <h2>Uzdevumi</h2>
+
+      <form id="task-form" onsubmit="processTask(this); return false;">
+        <input name="title" placeholder="ievadi uzdevumu">
+        <input name="desc" placeholder="ievadi aprakstu">
+        <input name="date" type="date">
+
+        <label for="priority-select">izvēlies prioritāti:</label>
+        <select name="priority" id="priority-select">
+          <option value="low">low</option>
+          <option value="medium">medium</option>
+          <option value="high">high</option>
+        </select>
+        <button id="create-task-button">Pievienot uzdevumu</button>
+      </form>
+
+      <ul id="task-list"></ul>
+  </body>
+</html>
