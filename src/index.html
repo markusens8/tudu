@@ -4,20 +4,28 @@
   <head>
     <meta charset="UTF-8">
     <title>tudu</title>
-    <script type="module" src="./scripts/script.js" defer></script>
+
+    <script src="./scripts/script.js" defer></script>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <main id="app"></main>
+
     <!-- PROJECTS LIST-->
     <template id="projects">
-      
+      <h1>Projekti</h1>
+      <input id="title" placeholder="ievadi projekta nosaukumu">
+      <button onclick="createProject()">Izveidot projektu</button>
+      <ul></ul>
     </template>
 
     <!-- TASK LIST-->
-      <h1>Mans projekts</h1>
+    <template id="tasks">
+      <button onclick="openProject(null)">Atgriezties atpakal</button>
+      <h1>yo</h1>
       <h2>Uzdevumi</h2>
 
-      <form id="task-form" onsubmit="processTask(this); return false;">
+      <form id="task-form" onsubmit="createTask(Object.fromEntries(new FormData(this))); return false;">
         <input name="title" placeholder="ievadi uzdevumu">
         <input name="desc" placeholder="ievadi aprakstu">
         <input name="date" type="date">
@@ -32,5 +40,6 @@
       </form>
 
       <ul id="task-list"></ul>
+    </template>
   </body>
 </html>

@@ -5,3 +5,5 @@
 2. izveidot projektu sadaļu un saglabāt uzdevumus katrā sadaļā
 
 3. saglabat uzdevumus .json faila un saglabat tos
+    3.1 lokala storedžā 
+    3.2 uz php servera
