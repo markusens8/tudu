@@ -23,7 +23,7 @@ Izstrādāt pilnvērtīgu To-Do Planner tipa sistēmu ar lietotāju autentifikā
 
     Dzēst uzdevumu. | IR
 
-    Atzīmēt uzdevumu kā pabeigtu / nepabeigtu.
+    Atzīmēt uzdevumu kā pabeigtu / nepabeigtu. | IR
 
     Norādīt uzdevuma nosaukumu un aprakstu. | IR
 

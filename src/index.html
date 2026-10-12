@@ -9,9 +9,27 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <nav>
+      <h2 onClick="navigate('home')">Sākums</h2>
+      <h2 onClick="navigate('projects')">Projekti</h2>
+      <button onclick="localStorage.clear()">delete data</button>
+    </nav>
     <main id="app"></main>
 
-    <!-- PROJECTS LIST-->
+    <!-- HOME SCREN -->
+    <template id="home">
+      <section>
+        <h2>urgent</h2>
+        <ul id="urgent-list"></ul>
+      </section>
+      
+      <section>
+        <h2>newest changes</h2>
+        <ul id="modified-list"></ul>
+      </section>
+    </template>
+
+    <!-- PROJECTS LIST -->
     <template id="projects">
       <h1>Projekti</h1>
       <input id="title" placeholder="ievadi projekta nosaukumu">
@@ -19,16 +37,15 @@
       <ul></ul>
     </template>
 
-    <!-- TASK LIST-->
+    <!-- TASK LIST -->
     <template id="tasks">
-      <button onclick="openProject(null)">Atgriezties atpakal</button>
       <h1>yo</h1>
       <h2>Uzdevumi</h2>
 
       <form id="task-form" onsubmit="createTask(Object.fromEntries(new FormData(this))); return false;">
         <input name="title" placeholder="ievadi uzdevumu">
         <input name="desc" placeholder="ievadi aprakstu">
-        <input name="date" type="date">
+        <input name="dueDate" type="datetime-local">
 
         <label for="priority-select">izvēlies prioritāti:</label>
         <select name="priority" id="priority-select">
@@ -39,6 +56,9 @@
         <button id="create-task-button">Pievienot uzdevumu</button>
       </form>
 
+      <button>Nepabeigtie</button>
+      <button>Pabeigtie</button>
+      <button>Visi</button>
       <ul id="task-list"></ul>
     </template>
   </body>

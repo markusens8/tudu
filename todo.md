@@ -7,3 +7,8 @@
 3. saglabat uzdevumus .json faila un saglabat tos
     3.1 lokala storedžā 
     3.2 uz php servera
+
+4. urgent sadala paradit ari uzdevumus ar tuvu beigu datumu
+    4.1 likt tam dinamiski radit attiecigo mervienibu: dienas, stundas, minūtes.
+    4.2 rādīt termiņš: pēc x minūtēm. termiņš pirms x minūtēm utt..
+
