@@ -19,12 +19,12 @@
     <!-- HOME SCREN -->
     <template id="home">
       <section>
-        <h2>urgent</h2>
+        <h3>urgent</h3>
         <ul id="urgent-list"></ul>
       </section>
       
       <section>
-        <h2>newest changes</h2>
+        <h3>newest changes</h3>
         <ul id="modified-list"></ul>
       </section>
     </template>
@@ -39,8 +39,7 @@
 
     <!-- TASK LIST -->
     <template id="tasks">
-      <h1>yo</h1>
-      <h2>Uzdevumi</h2>
+      <h1></h1>
 
       <form id="task-form" onsubmit="createTask(Object.fromEntries(new FormData(this))); return false;">
         <input name="title" placeholder="ievadi uzdevumu">

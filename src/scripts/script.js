@@ -1,6 +1,10 @@
 let state = JSON.parse(localStorage.getItem("tudu")) || {projects: [], currentProjectId: null, view: "home"};
 const currentProject = () => state.projects.find(p => p.id === state.currentProjectId);
-const today = new Date();
+const today = new Date().toLocaleString('lv-LV');   
+
+function getFullDate() {
+
+}
 
 function commit() {
     localStorage.setItem("tudu", JSON.stringify(state));
@@ -15,7 +19,7 @@ function navigate(view, projectId) {
 }
 
 function createProject() {
-    const title = document.querySelector("input").value;
+    const title = document.querySelector("input").value;    
     state.projects.push({id: crypto.randomUUID(), title, tasks: []})
     commit()
 }
@@ -38,6 +42,7 @@ function deleteTask(id) {
 
 function assignDone(task) {
     task.done = !task.done;
+    task.modifiedDate = today;
     commit();
 }
 
@@ -58,28 +63,40 @@ function renderHome(root) {
     const urgentList = root.querySelector("#urgent-list");
     for (const project of state.projects) 
         for (const task of project.tasks) {
-            if (task.priority == "high" && task.done == false) {
-                const li = document.createElement("li");
+            if (task.priority != "high" || task.done) continue;
 
-                const taskTitle = document.createElement("h3");
-                taskTitle.textContent = task.title;
-                taskTitle.addEventListener("click", () => navigate("tasks", project.id));
+            const li = document.createElement("li");
+            li.addEventListener("click", () => navigate("tasks", project.id));
 
-                const priority = document.createElement("p");
-                priority.textContent = "priority: HIGH!!!!";
+            const taskTitle = document.createElement("h4");
+            taskTitle.textContent = task.title;
 
-                li.appendChild(taskTitle); li.appendChild(priority);
-                urgentList.appendChild(li);
-            }
+            const priority = document.createElement("p");
+            priority.textContent = "priority: HIGH!!!!";
+
+            li.appendChild(taskTitle); li.appendChild(priority);
+            urgentList.appendChild(li);
         }
 
-    /*
+
+    // rendering newest changes section
+    var tasks = state.projects
+        .flatMap(p => p.tasks)
+        .sort((a, b) => b.modifiedDate - a.modifiedDate);
+
     const modifiedList = root.querySelector("#modified-list");
-    for (const project of state.projects)
-        for (const task of project.tasks) {
-            
-        }
-    */
+    for (const task of tasks) {
+        const li = document.createElement("li");
+
+        const taskTitle = document.createElement("h4");
+        taskTitle.textContent = task.title;
+        
+        const modifiedDate = document.createElement("p");
+        modifiedDate.textContent = "pedejoreiz modificets: " + task.modifiedDate;
+
+        li.appendChild(taskTitle); li.appendChild(modifiedDate);
+        modifiedList.appendChild(li);
+    }
 }
 
 function renderProjects(root) {
@@ -107,7 +124,7 @@ function renderTasks(root) {
     for (const task of p.tasks) {
         const li = document.createElement("li");
         
-        const title = document.createElement("h2");
+        const title = document.createElement("h3");
         title.textContent = task.title;
         
         const desc = document.createElement("p");

@@ -12,3 +12,7 @@
     4.1 likt tam dinamiski radit attiecigo mervienibu: dienas, stundas, minūtes.
     4.2 rādīt termiņš: pēc x minūtēm. termiņš pirms x minūtēm utt..
 
+5. var aizlekt lidz uzdevumam uzkliskinot uz ta ieks last modified sekcija
+
+BUGS:
+- datums neatjaunojas, tiek izmantots viens un tas pats datums kad tika palaista majaslapa
