@@ -1,21 +1,32 @@
-let state = JSON.parse(localStorage.getItem("tudu")) || {projects: [], currentProjectId: null, view: "home"};
-const currentProject = () => state.projects.find(p => p.id === state.currentProjectId);
-const today = new Date().toLocaleString('lv-LV');   
+let state = JSON.parse(localStorage.getItem("tudu")) || {projects: [], currentProjectId: null, view: "home", filter: "all"};
+const currentProject = () => state.projects.find(p => p.id === state.currentProjectId); 
+const today = () => new Date().toLocaleString('lv-LV');
 
-function getFullDate() {
-
-}
+const screens = {
+    home: renderHome,
+    projects: renderProjects,
+    tasks: renderTasks
+};
 
 function commit() {
     localStorage.setItem("tudu", JSON.stringify(state));
     render();
 }
 
-function navigate(view, projectId) {
-    state.view = view;
-    if (projectId != undefined) state.currentProjectId = projectId;
-    else state.currentProjectId = null;
+function setFilter(value) {
+    state.filter = value;
     commit();
+}
+
+function navigate(view) {
+    state.view = view;
+    commit();
+}
+
+function openProject(projectId) {
+    state.currentProjectId = projectId;
+    setFilter("all");
+    navigate("tasks");
 }
 
 function createProject() {
@@ -24,14 +35,19 @@ function createProject() {
     commit()
 }
 
-function createTask(data) {
-    currentProject().tasks.push({id: crypto.randomUUID(), done: false, modifiedDate: today,  ...data});
-    commit();
-}
 
 function deleteProject(id) {
     state.projects = state.projects.filter(p => p.id != id);
     commit();
+}
+
+function createTask(data) {    
+    currentProject().tasks.push({id: crypto.randomUUID(), done: false, modifiedDate: today(),  ...data});
+    commit();
+}
+
+function editTask() {
+
 }
 
 function deleteTask(id) {
@@ -40,33 +56,25 @@ function deleteTask(id) {
     commit();
 }
 
-function assignDone(task) {
+function toggleDone(task) {
     task.done = !task.done;
-    task.modifiedDate = today;
+    task.modifiedDate = today();
     commit();
 }
 
 function render() {
-    const screens = {
-        home: renderHome,
-        projects: renderProjects,
-        tasks: renderTasks
-    };
-
     const app = document.getElementById("app");
     app.replaceChildren(document.getElementById(state.view).content.cloneNode(true));
     screens[state.view](app);
 }
 
-function renderHome(root) {
-    // rendering urgent section
-    const urgentList = root.querySelector("#urgent-list");
+function renderHomeUrgentList(root) {
     for (const project of state.projects) 
         for (const task of project.tasks) {
             if (task.priority != "high" || task.done) continue;
 
             const li = document.createElement("li");
-            li.addEventListener("click", () => navigate("tasks", project.id));
+            li.addEventListener("click", () => openProject(project.id));
 
             const taskTitle = document.createElement("h4");
             taskTitle.textContent = task.title;
@@ -74,17 +82,16 @@ function renderHome(root) {
             const priority = document.createElement("p");
             priority.textContent = "priority: HIGH!!!!";
 
-            li.appendChild(taskTitle); li.appendChild(priority);
-            urgentList.appendChild(li);
+            li.append(taskTitle, priority)
+            root.appendChild(li);
         }
+}
 
-
-    // rendering newest changes section
-    var tasks = state.projects
+function renderHomeModifiedList(root) {
+    const tasks = state.projects
         .flatMap(p => p.tasks)
         .sort((a, b) => b.modifiedDate - a.modifiedDate);
 
-    const modifiedList = root.querySelector("#modified-list");
     for (const task of tasks) {
         const li = document.createElement("li");
 
@@ -94,34 +101,45 @@ function renderHome(root) {
         const modifiedDate = document.createElement("p");
         modifiedDate.textContent = "pedejoreiz modificets: " + task.modifiedDate;
 
-        li.appendChild(taskTitle); li.appendChild(modifiedDate);
-        modifiedList.appendChild(li);
+        li.append(taskTitle, modifiedDate);
+        root.appendChild(li);
     }
 }
 
+function renderHome(root) {
+    renderHomeUrgentList(root.querySelector("#urgent-list")); 
+    renderHomeModifiedList(root.querySelector("#modified-list"));
+}
+
 function renderProjects(root) {
-    let projectList = root.querySelector("ul");
+    var projectList = root.querySelector("ul");
     for (const project of state.projects) {
         const li = document.createElement("li");
 
         const button = document.createElement("button");
         button.textContent = project.title;
-        button.addEventListener("click", () => navigate("tasks", project.id));
+        button.addEventListener("click", () => openProject(project.id));
 
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "dzēst";
         deleteButton.addEventListener("click", () => deleteProject(project.id));
 
-        li.appendChild(button); li.appendChild(deleteButton);
+        li.append(button, deleteButton);
         projectList.appendChild(li);
     }
 }
 
 function renderTasks(root) {
-    const p = currentProject();
-    let taskList = root.querySelector("ul");
-    root.querySelector("h1").textContent = p.title;
-    for (const task of p.tasks) {
+    const project = currentProject();
+    const taskList = root.querySelector("ul");
+    root.querySelector("h1").textContent = project.title;
+
+    let visibleTasks = project.tasks.filter(task => {
+        if (state.filter == "done") return task.done;
+        if (state.filter == "active") return !task.done;
+        return true;
+    })
+    for (const task of visibleTasks) {
         const li = document.createElement("li");
         
         const title = document.createElement("h3");
@@ -143,12 +161,15 @@ function renderTasks(root) {
         deleteButton.textContent = "dzest";
         deleteButton.addEventListener("click", () => deleteTask(task.id));
 
+        const editButton = document.createElement("button");
+        editButton.textContent = "rediģēt";
+        editButton.addEventListener("click", editTask);
+
         const doneButton = document.createElement("button");
         doneButton.textContent = "done";
-        doneButton.addEventListener("click", () => assignDone(task));
+        doneButton.addEventListener("click", () => toggleDone(task));
         
-        li.appendChild(title); li.appendChild(desc); li.appendChild(dueDate); li.appendChild(priority); li.appendChild(done); li.appendChild(deleteButton); 
-        li.appendChild(doneButton);
+        li.append(title, desc, dueDate, priority, done, deleteButton, editButton, doneButton); 
         taskList.appendChild(li);
     }
 }

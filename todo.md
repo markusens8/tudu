@@ -5,7 +5,7 @@
 2. izveidot projektu sadaļu un saglabāt uzdevumus katrā sadaļā
 
 3. saglabat uzdevumus .json faila un saglabat tos
-    3.1 lokala storedžā 
+    3.1 lokala storedžā
     3.2 uz php servera
 
 4. urgent sadala paradit ari uzdevumus ar tuvu beigu datumu
@@ -15,4 +15,4 @@
 5. var aizlekt lidz uzdevumam uzkliskinot uz ta ieks last modified sekcija
 
 BUGS:
-- datums neatjaunojas, tiek izmantots viens un tas pats datums kad tika palaista majaslapa
+- datums neatjaunojas, tiek izmantots viens un tas pats datums kad tika palaista majaslapa | salabots
