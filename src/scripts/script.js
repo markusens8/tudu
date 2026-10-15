@@ -42,7 +42,7 @@ function deleteProject(id) {
 }
 
 function createTask(data) {    
-    currentProject().tasks.push({id: crypto.randomUUID(), done: false, modifiedDate: today(),  ...data});
+    currentProject().tasks.push({id: crypto.randomUUID(), status: false, modifiedDate: today(),  ...data});
     commit();
 }
 
@@ -57,7 +57,7 @@ function deleteTask(id) {
 }
 
 function toggleDone(task) {
-    task.done = !task.done;
+    task.status = (task.status === 'active' ? 'done' : 'active');
     task.modifiedDate = today();
     commit();
 }
@@ -71,7 +71,7 @@ function render() {
 function renderHomeUrgentList(root) {
     for (const project of state.projects) 
         for (const task of project.tasks) {
-            if (task.priority != "high" || task.done) continue;
+            if (task.priority != "high" || task.status == 'done') continue;
 
             const li = document.createElement("li");
             li.addEventListener("click", () => openProject(project.id));
@@ -130,47 +130,40 @@ function renderProjects(root) {
 }
 
 function renderTasks(root) {
-    const project = currentProject();
-    const taskList = root.querySelector("ul");
-    root.querySelector("h1").textContent = project.title;
+    root.querySelector("h1").textContent = currentProject().title;
+    const tasksList = root.querySelector("ul");
 
+    /*
     let visibleTasks = project.tasks.filter(task => {
         if (state.filter == "done") return task.done;
         if (state.filter == "active") return !task.done;
         return true;
     })
-    for (const task of visibleTasks) {
-        const li = document.createElement("li");
-        
-        const title = document.createElement("h3");
-        title.textContent = task.title;
-        
-        const desc = document.createElement("p");
-        desc.textContent = task.desc;
-        
-        const dueDate = document.createElement("p");
-        dueDate.textContent = "termiņš: " + task.dueDate;
-        
-        const priority = document.createElement("p");
-        priority.textContent = "prioritāte: " + task.priority;
+    */
 
-        const done = document.createElement("p");
-        done.textContent = "pabeigts: " + task.done;
-        
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "dzest";
-        deleteButton.addEventListener("click", () => deleteTask(task.id));
+   for (const task of currentProject().tasks) {
+        const fields = {
+            '.task-title':    task.title,
+            '.task-desc':     task.desc,
+            '.task-due-date': task.dueDate,
+            '.task-priority': task.priority,
+            '.task-status':   task.status;
+        }
 
-        const editButton = document.createElement("button");
-        editButton.textContent = "rediģēt";
-        editButton.addEventListener("click", editTask);
+       const fieldSelectors = ['.task-title', '.task-desc', '.task-due-date', '.task-priority', '.task-status'];
+       const taskValues = [task.title, task.desc, task.dueDate, task.priority, task.status];
+       const taskFragment = document.getElementById("task").content.cloneNode(true);
 
-        const doneButton = document.createElement("button");
-        doneButton.textContent = "done";
-        doneButton.addEventListener("click", () => toggleDone(task));
-        
-        li.append(title, desc, dueDate, priority, done, deleteButton, editButton, doneButton); 
-        taskList.appendChild(li);
+       for (let i=0; i < fieldSelectors.length; ++i) {
+         const field = taskFragment.querySelector(fieldSelectors[i]);
+         field.value = taskValues[i];
+         field.readOnly = true;
+
+         field.addEventListener("click", () => field.readOnly = false);
+         field.addEventListener("blur", () => {});
+       }
+            
+        tasksList.appendChild(taskFragment);
     }
 }
 

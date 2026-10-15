@@ -14,5 +14,7 @@
 
 5. var aizlekt lidz uzdevumam uzkliskinot uz ta ieks last modified sekcija
 
+6. create a template for the task?
+
 BUGS:
 - datums neatjaunojas, tiek izmantots viens un tas pats datums kad tika palaista majaslapa | salabots

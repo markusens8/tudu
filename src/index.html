@@ -60,5 +60,16 @@
       <button id="filter-all" onclick="setFilter('all')">Visi</button>
       <ul id="task-list"></ul>
     </template>
+
+    <!-- an individual task -->
+    <template id="task">
+      <input class="task-title">
+      <input class="task-desc">
+      <p>termiņš:    <input class="task-due-date" type="datetime-local"></p>
+      <p>prioritāte: <input class="task-priority"></p>
+      <p>pabeigts:   <input class="task-status"></p>
+      <button class="delete-button">dzēst</button>
+      <button class="status-button">done</button> 
+    </template>
   </body>
 </html>
