@@ -13,6 +13,7 @@
       <h2 onClick="navigate('home')">Sākums</h2>
       <h2 onClick="navigate('projects')">Projekti</h2>
       <button onclick="localStorage.clear()">delete data</button>
+	  <button onclick="console.log(state)">Print state</button>
     </nav>
     <main id="app"></main>
 
@@ -67,9 +68,8 @@
       <input class="task-desc">
       <p>termiņš:    <input class="task-due-date" type="datetime-local"></p>
       <p>prioritāte: <input class="task-priority"></p>
-      <p>pabeigts:   <input class="task-status"></p>
+      <p id='status'>statuss: </p>
       <button class="delete-button">dzēst</button>
-      <button class="status-button">done</button> 
     </template>
   </body>
 </html>

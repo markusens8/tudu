@@ -19,7 +19,7 @@ Izstrādāt pilnvērtīgu To-Do Planner tipa sistēmu ar lietotāju autentifikā
 2.2. Personīgie uzdevumi
     Izveidot uzdevumu. | IR
 
-    Rediģēt uzdevumu. | implemente pa vienkarso - dubultkliskis uz lauka un tu to vari nomainit
+    Rediģēt uzdevumu. | IR
 
     Dzēst uzdevumu. | IR
 
@@ -34,7 +34,7 @@ Izstrādāt pilnvērtīgu To-Do Planner tipa sistēmu ar lietotāju autentifikā
     Apskatīt savus aktīvos un pabeigtos uzdevumus. | IR
 
 2.3. Dashboard
-    Pēc pieslēgšanās lietotājam jābūt pieejamam pārskatāmam dashboard. 
+    Pēc pieslēgšanās lietotājam jābūt pieejamam pārskatāmam dashboard.  
 
     Jābūt redzamiem aktuālajiem uzdevumiem. | pa pusei ir, aktualitates zina var redzet tikai uzdevumus ar augstu prioritate nevis beigu termina
 

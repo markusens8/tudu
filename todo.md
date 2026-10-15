@@ -2,10 +2,10 @@
 
 1. izveidot uzdevumam 2 veida skatus - saraksta skats, un padzilinatais skats ja uzpiez uz uzdevuma virsu, (paradit aprakstu)
 
-2. izveidot projektu sadaļu un saglabāt uzdevumus katrā sadaļā
+2. izveidot projektu sadaļu un saglabāt uzdevumus katrā sadaļā | ju
 
 3. saglabat uzdevumus .json faila un saglabat tos
-    3.1 lokala storedžā
+    3.1 lokala storedžā | ir
     3.2 uz php servera
 
 4. urgent sadala paradit ari uzdevumus ar tuvu beigu datumu
@@ -14,7 +14,7 @@
 
 5. var aizlekt lidz uzdevumam uzkliskinot uz ta ieks last modified sekcija
 
-6. create a template for the task?
+6. create a template for the task? | iz dan
 
 BUGS:
 - datums neatjaunojas, tiek izmantots viens un tas pats datums kad tika palaista majaslapa | salabots

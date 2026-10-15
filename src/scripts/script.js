@@ -2,6 +2,8 @@ let state = JSON.parse(localStorage.getItem("tudu")) || {projects: [], currentPr
 const currentProject = () => state.projects.find(p => p.id === state.currentProjectId); 
 const today = () => new Date().toLocaleString('lv-LV');
 
+// project = {id, title, tasks: [{id, title, desc, ...}, {}]}
+
 const screens = {
     home: renderHome,
     projects: renderProjects,
@@ -25,7 +27,7 @@ function navigate(view) {
 
 function openProject(projectId) {
     state.currentProjectId = projectId;
-    setFilter("all");
+	state.filter = "all";
     navigate("tasks");
 }
 
@@ -41,13 +43,21 @@ function deleteProject(id) {
     commit();
 }
 
-function createTask(data) {    
-    currentProject().tasks.push({id: crypto.randomUUID(), status: false, modifiedDate: today(),  ...data});
+function toggleDone(task) {
+    task.status = (task.status === 'active' ? 'done' : 'active');
+    task.modifiedDate = today();
     commit();
 }
 
-function editTask() {
+function createTask(data) {    
+    currentProject().tasks.push({id: crypto.randomUUID(), status: "active", modifiedDate: today(),  ...data});
+    commit();
+}
 
+function editTask(task, field, value) {
+	task[field] = value;
+	task.modifiedDate = today();
+	commit();
 }
 
 function deleteTask(id) {
@@ -56,11 +66,6 @@ function deleteTask(id) {
     commit();
 }
 
-function toggleDone(task) {
-    task.status = (task.status === 'active' ? 'done' : 'active');
-    task.modifiedDate = today();
-    commit();
-}
 
 function render() {
     const app = document.getElementById("app");
@@ -130,40 +135,36 @@ function renderProjects(root) {
 }
 
 function renderTasks(root) {
-    root.querySelector("h1").textContent = currentProject().title;
+	const project = currentProject();
+    root.querySelector("h1").textContent = project.title;
     const tasksList = root.querySelector("ul");
 
-    /*
-    let visibleTasks = project.tasks.filter(task => {
-        if (state.filter == "done") return task.done;
-        if (state.filter == "active") return !task.done;
+    let tasks = project.tasks.filter(task => {
+        if (state.filter == "done") return task.status === "done";
+        if (state.filter == "active") return task.status === "active";
         return true;
     })
-    */
 
-   for (const task of currentProject().tasks) {
-        const fields = {
-            '.task-title':    task.title,
-            '.task-desc':     task.desc,
-            '.task-due-date': task.dueDate,
-            '.task-priority': task.priority,
-            '.task-status':   task.status;
-        }
+	const FIELDS = {
+	  title:    '.task-title',
+	  desc:     '.task-desc',
+	  dueDate:  '.task-due-date',
+	  priority: '.task-priority',
+    };
 
-       const fieldSelectors = ['.task-title', '.task-desc', '.task-due-date', '.task-priority', '.task-status'];
-       const taskValues = [task.title, task.desc, task.dueDate, task.priority, task.status];
-       const taskFragment = document.getElementById("task").content.cloneNode(true);
+   for (const task of tasks) {
+       const fragment = document.getElementById("task").content.cloneNode(true);
+	   for (const [prop, selector] of Object.entries(FIELDS)) {
+	     const el = fragment.querySelector(selector);
+		 el.value = task[prop] || ""; 
+		 
+		 el.addEventListener('change', () => editTask(task, prop, el.value));
+	   }
 
-       for (let i=0; i < fieldSelectors.length; ++i) {
-         const field = taskFragment.querySelector(fieldSelectors[i]);
-         field.value = taskValues[i];
-         field.readOnly = true;
-
-         field.addEventListener("click", () => field.readOnly = false);
-         field.addEventListener("blur", () => {});
-       }
-            
-        tasksList.appendChild(taskFragment);
+	   const statusEl = fragment.querySelector("#status");
+	   statusEl.textContent = "statuss: " + task.status;
+	   statusEl.addEventListener('click', () => toggleDone(task));
+       tasksList.appendChild(fragment);
     }
 }
 
