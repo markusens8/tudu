@@ -2,6 +2,8 @@ let state = JSON.parse(localStorage.getItem("tudu")) || {projects: [], currentPr
 const currentProject = () => state.projects.find(p => p.id === state.currentProjectId); 
 const today = () => new Date().toLocaleString('lv-LV');
 
+// strukturesana, ideja generesan, attel generesan, atkludosanai, koda risinajuma idejas generesana (bet tev pasam jaimplemente)
+
 // project = {id, title, tasks: [{id, title, desc, ...}, {}]}
 
 const screens = {
@@ -74,9 +76,10 @@ function render() {
 }
 
 function renderHomeUrgentList(root) {
+    root.replaceChildren();
     for (const project of state.projects) 
         for (const task of project.tasks) {
-            if (task.priority != "high" || task.status == 'done') continue;
+            if (task.priority != "high" || task.status == 'done' ) continue;
 
             const li = document.createElement("li");
             li.addEventListener("click", () => openProject(project.id));
@@ -85,14 +88,18 @@ function renderHomeUrgentList(root) {
             taskTitle.textContent = task.title;
 
             const priority = document.createElement("p");
-            priority.textContent = "priority: HIGH!!!!";
+            priority.textContent = "priority: " + task.priority;
 
-            li.append(taskTitle, priority)
+            const dueDate = document.createElement("p");
+            dueDate.textContent = "termiņš: " + task.dueDate.toLocaleString('lv-LV');
+
+            li.append(taskTitle, priority, dueDate)
             root.appendChild(li);
         }
 }
 
 function renderHomeModifiedList(root) {
+    root.replaceChildren();
     const tasks = state.projects
         .flatMap(p => p.tasks)
         .sort((a, b) => b.modifiedDate - a.modifiedDate);
