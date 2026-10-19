@@ -1,25 +1,33 @@
-export async function getState() {	
-	const response = await fetch("/backend/projects.php");
-	const data = response.json();
-	return data;
+export async function getProjects() {	
+	const response = await fetch("/backend/projects.php", {
+		method: 'GET' 
+	});
+	return response.json();
 }
 
-function addProject() {
-
+export async function createProject(title) {
+	await fetch("backend/projects.php", {
+		method: 'POST',
+		body: JSON.stringify({title}) 
+	});
 }
 
-function addTask() {
-
+export async function deleteProject(id) {
+	await fetch(`backend/projects.php/${id}`, {
+		method: 'DELETE'
+	});
 }
 
-function deleteTask() {
-
+export async function createTask(projectId, task) {
+	
 }
 
-function deleteProject() {
-
+async function deleteTask(id) {
+	await fetch(`backend/tasks.php/${id}`, { 
+		method: 'DELETE',
+	});
 }
 
-function editTask() {
+async function editTask() {
 
 }

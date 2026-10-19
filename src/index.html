@@ -4,19 +4,16 @@
   <head>
     <meta charset="UTF-8">
     <title>tudu</title>
-
-    <script type="module" src="./js/api.js" defer></script>
-	<script type="module" src="./js/render.js" defer></script>
-	<script type="module" src="./js/main.js" defer></script>
+		<script type="module" src="./js/main.js" defer></script>
     <link rel="stylesheet" href="./css/style.css">
   </head>
+
   <body>
     <nav>
-      <h2 onClick="navigate('home')">Sākums</h2>
-      <h2 onClick="navigate('projects')">Projekti</h2>
-      <button onclick="localStorage.clear()">delete data</button>
-	  <button onclick="console.log(state)">Print state</button>
+      <h2 id="home-navigator">Sākums</h2>
+      <h2 id="projects-navigator">Projekti</h2>
     </nav>
+
     <main id="app"></main>
 
     <!-- HOME SCREN -->
@@ -35,16 +32,16 @@
     <!-- PROJECTS LIST -->
     <template id="projects">
       <h1>Projekti</h1>
-      <input id="title" placeholder="ievadi projekta nosaukumu">
-      <button onclick="createProject()">Izveidot projektu</button>
-      <ul></ul>
+      <input id="project-title-input" placeholder="ievadi projekta nosaukumu">
+      <button id="create-project">Izveidot projektu</button>
+      <ul id="project-list"></ul>
     </template>
 
     <!-- TASK LIST -->
     <template id="tasks">
       <h1></h1>
 
-      <form id="task-form" onsubmit="createTask(Object.fromEntries(new FormData(this))); return false;">
+      <form id="task-form">
         <input name="title" placeholder="ievadi uzdevumu">
         <input name="desc" placeholder="ievadi aprakstu">
         <input name="dueDate" type="datetime-local">
@@ -70,7 +67,7 @@
       <input class="task-desc">
       <p>termiņš:    <input class="task-due-date" type="datetime-local"></p>
       <p>prioritāte: <input class="task-priority"></p>
-      <p id='status'>statuss: </p>
+      <p class='status'>statuss: </p>
       <button class="delete-button">dzēst</button>
     </template>
   </body>
