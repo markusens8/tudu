@@ -102,7 +102,6 @@ export function renderTasks(project, onCreate, onEdit, onDelete) {
 	   statusEl.textContent = "statuss: " + task.status;
 	   statusEl.addEventListener('click', () => onEdit(task.id, "priority", task.status === "active" ? "done" : "active" ));
 
-
      app.querySelector("#task-list").appendChild(fragment);
     }
 }

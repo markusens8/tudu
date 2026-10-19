@@ -19,7 +19,10 @@ export async function deleteProject(id) {
 }
 
 export async function createTask(projectId, task) {
-	
+	await fetch('backend/tasks.php', {
+		method: "POST",
+		body: JSON.stringify({ ...task, projectId})
+	});	
 }
 
 async function deleteTask(id) {
