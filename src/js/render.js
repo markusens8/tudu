@@ -65,23 +65,15 @@ export function renderProjects(projects, onCreate, onClick, onDelete) {
 }
 
 // ------------------------ TASKS -----------------------------
-const FIELDS = {
-	  title:    '.task-title',
-	  desc:     '.task-desc',
-	  dueDate:  '.task-due-date',
-	  priority: '.task-priority',
-};
-
 export function renderTasks(project, onCreate, onEdit, onDelete) {
-		app.replaceChildren(document.getElementById("tasks").content.cloneNode(true));
+	app.replaceChildren(document.getElementById("tasks").content.cloneNode(true));
     app.querySelector("h1").textContent = project.title;
 
-		app.querySelector("#task-form").addEventListener("submit", (e) => {
-			e.preventDefault();
-			const task = Object.fromEntries(new FormData(e.target));
-			onCreate(task);
-			e.target.reset();
-		});
+	app.querySelector("#task-form").addEventListener("submit", (e) => {
+		e.preventDefault();
+		onCreate(new FormData(e.target));
+		e.target.reset();
+	});
 /*
     let tasks = project.tasks.filter(task => {
         if (state.filter == "done") return task.status === "done";
@@ -89,9 +81,22 @@ export function renderTasks(project, onCreate, onEdit, onDelete) {
         return true;
     })
 */
+	for (const task of project.tasks) {
+		const fragment = document.getElementById("task").content.cloneNode(true);
+
+		for (const [field, value] of Object.entries(task)) {
+			const el = fragment.querySelector(`.$(field)`);
+			el.value = value || "";
+			el.addEventListener("click", onEdit())
+		
+		}
+	}
+	
 
    for (const task of project.tasks) {
-		 const fragment = document.getElementById("task").content.cloneNode(true);
+
+
+
 
 	   for (const [prop, selector] of Object.entries(FIELDS)) {
 	     const el = fragment.querySelector(selector);

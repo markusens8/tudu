@@ -43,7 +43,7 @@
 
       <form id="task-form">
         <input name="title" placeholder="ievadi uzdevumu">
-        <input name="desc" placeholder="ievadi aprakstu">
+        <input name="description" placeholder="ievadi aprakstu">
         <input name="dueDate" type="datetime-local">
 
         <label for="priority-select">izvēlies prioritāti:</label>
@@ -63,10 +63,10 @@
 
     <!-- an individual task -->
     <template id="task">
-      <input class="task-title">
-      <input class="task-desc">
-      <p>termiņš:    <input class="task-due-date" type="datetime-local"></p>
-      <p>prioritāte: <input class="task-priority"></p>
+      <input class="title">
+      <input class="description">
+      <p>termiņš:    <input class="dueDate" type="datetime-local"></p>
+      <p>prioritāte: <input class="priority"></p>
       <p class='status'>statuss: </p>
       <button class="delete-button">dzēst</button>
     </template>
