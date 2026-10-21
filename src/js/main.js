@@ -4,8 +4,10 @@ import * as render from "./render.js";
 let projects = api.getProjects(); 
 let state = {view: "projects", currentProjectId: null, filter: null};
 
+
 // ---------------------------- STATE STUFF -------------------------------------
 
+// Rewrite ts !!!!!!!!!!!!!!!!!!!!!
 function getUrgentTasks() {
 	const msToDays = (ms) => ms / 1000 / 60 / 24;
 	const getDaysUntilDate = (date) => Math.floor( new Date(date).getTime())  - msToDays(Date.now()); 
@@ -19,9 +21,8 @@ function getUrgentTasks() {
 }
 
 function getRecentlyModifiedTasks() {
-
+	return
 }
-
 
 function changeCurrentProject(id) {
 	state.currentProjectId = id;
@@ -34,8 +35,9 @@ function changeFilter(filter) {
 	refresh();
 }
 
-// ----------------- CRUD OPERATIONS ------------------------
 
+
+// ----------------- CRUD OPERATIONS ------------------------
 function createProject(title) {
 	if (title.trim() === "") alert("Ievadi projekta nosaukumu");
 	else api.createProject(title);
@@ -43,12 +45,20 @@ function createProject(title) {
 }
 
 function deleteProject(id) {
+	console.log("id in main.js");
+	console.log(id);
 	api.deleteProject(id);
 	refresh();
 }
 
-function createTask(task) {
-	api.createTask(state.currentProjectId, task);
+function editProject(newTitle) {
+	api.editProject(newTitle);
+	refresh();
+}
+
+function createTask(data) {
+	data.append("projectId", state.currentProjectId);
+	api.createTask(data);
 	refresh();
 }
 
@@ -62,14 +72,29 @@ function deleteTask(id) {
 	refresh();
 }
 
+
 // --------------------------------- DRAWING ------------------!
+const taskActions = {
+	"createTask": createTask,
+	"editTask": editTask,
+	"deleteTask": deleteTask,
+};
+
+const projectActions = {
+	"createProject": createProject,
+	"editProject": editProject,
+	"deleteProject": deleteProject,
+	"changeCurrentProject": changeCurrentProject
+};
+
 
 const draw = {
 	"login": null,
 	"home": () => render.renderHome( getUrgentTasks(), getRecentlyModifiedTasks() ),
-	"projects": () => render.renderProjects( projects, createProject, changeCurrentProject, deleteProject ),
-	"tasks": () => render.renderTasks( projects[state.currentProjectId], createTask, editTask, deleteTask )
+	"projects": () => render.renderProjects( projects, projectActions),
+	"tasks": () => render.renderTasks( projects[state.currentProjectId], taskActions)
 };
+
 async function refresh() {
 	projects = await api.getProjects();
 	draw[state.view]();	

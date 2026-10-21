@@ -1,12 +1,17 @@
 <?php
-header('Content-Type: application/json');
-// 1. localStorage vietā glabā to JSON failā uz servera un katram pieslēgumam atgriez vienu un to pašu state
-// 2. Login sistēma katram lietotājam atgriez personisko state
-// 3. 
+function getProjects() {
+	$json = file_get_contents("projects.json");
+	$projects = json_decode($json, true);
+	return $projects;
+}
 
+function setProjects($projects) {
+	file_put_contents("projects.json", json_encode((object)$projects, JSON_PRETTY_PRINT));
+}
+
+//header('Content-Type: application/json');
+$projects = getProjects();
 $method = $_SERVER['REQUEST_METHOD'];
-$json = file_get_contents("projects.json");
-$projects = json_decode($json, true);
 switch($method) {
 	case 'GET':
 		readfile("projects.json");
@@ -19,12 +24,12 @@ switch($method) {
 			'title' => $data['title'],
 			'tasks' => []
 		];
-		file_put_contents("projects.json", json_encode($projects));
+		setProjects($projects);
 		break;
 	case 'DELETE':
 		$id = trim($_SERVER['PATH_INFO'], '/');
 		unset($projects[$id]);
-		file_put_contents("projects.json", json_encode((object)$projects));
+		setProjects($projects);
 		break;
 }
 

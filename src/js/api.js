@@ -1,3 +1,4 @@
+// --------------------------------- PROJECTSSSSSSSSSSSSSSSS ------------------
 export async function getProjects() {	
 	const response = await fetch("/backend/projects.php", {
 		method: 'GET' 
@@ -12,20 +13,30 @@ export async function createProject(title) {
 	});
 }
 
+export async function editProject(id, newTitle) {
+	await fetch ("backend/projects.php", {
+		method: 'PATCH',
+		body: JSON.stringify({id, newTitle})
+	});
+}
+
 export async function deleteProject(id) {
 	await fetch(`backend/projects.php/${id}`, {
 		method: 'DELETE'
 	});
 }
 
-export async function createTask(projectId, task) {
+
+
+// ------------------------ TAAAAAAAAAAAAAAAAASKS -------------------
+export async function createTask(task) {
 	await fetch('backend/tasks.php', {
 		method: "POST",
 		body: task
 	});	
 }
 
-async function deleteTask(id) {
+export async function deleteTask(id) {
 	await fetch(`backend/tasks.php/${id}`, { 
 		method: 'DELETE',
 	});

@@ -6,7 +6,7 @@ function getProjects() {
 }
 
 function setProjects($projects) {
-	file_put_contents("projects.json", json_encode($projects));
+	file_put_contents("projects.json", json_encode($projects, JSON_PRETTY_PRINT));
 }
 
 

@@ -40,12 +40,12 @@ function renderHomeModifiedList(recentlyModifiedTasks) {
 
 // ---------------------- PROJECTS ----------------------
 
-export function renderProjects(projects, onCreate, onClick, onDelete) {
-		app.replaceChildren(document.getElementById("projects").content.cloneNode(true));
+export function renderProjects(projects, actions) {
+	app.replaceChildren(document.getElementById("projects").content.cloneNode(true));
 
-		app.querySelector("#create-project").addEventListener("click", () => {
-			onCreate(app.querySelector("#project-title-input").value);
-		});
+	app.querySelector("#create-project").addEventListener("click", () => {
+		actions.createProject(app.querySelector("#project-title-input").value);
+	});
 
     for (const [id, project] of Object.entries(projects)) {
         const li = document.createElement("li");
@@ -55,58 +55,40 @@ export function renderProjects(projects, onCreate, onClick, onDelete) {
         button.textContent = project.title;
         deleteButton.textContent = "dzēst";
 
-        button.addEventListener("click", () => onClick(id));
-        deleteButton.addEventListener("click", () => onDelete(id));
+        button.addEventListener("click", () => actions.changeCurrentProject(id));
+        deleteButton.addEventListener("click", () => actions.deleteProject(id));
 
         li.append(button, deleteButton);
         app.querySelector("#project-list").appendChild(li);
     }
-
 }
 
 // ------------------------ TASKS -----------------------------
-export function renderTasks(project, onCreate, onEdit, onDelete) {
+export function renderTasks(project, actions) {
 	app.replaceChildren(document.getElementById("tasks").content.cloneNode(true));
     app.querySelector("h1").textContent = project.title;
 
 	app.querySelector("#task-form").addEventListener("submit", (e) => {
 		e.preventDefault();
-		onCreate(new FormData(e.target));
+		actions.createTask(new FormData(e.target));
 		e.target.reset();
 	});
-/*
-    let tasks = project.tasks.filter(task => {
-        if (state.filter == "done") return task.status === "done";
-        if (state.filter == "active") return task.status === "active";
-        return true;
-    })
-*/
-	for (const task of project.tasks) {
+
+
+	// adding new task
+	for (const [taskId, taskFields] of Object.entries(project.tasks)) {
 		const fragment = document.getElementById("task").content.cloneNode(true);
 
-		for (const [field, value] of Object.entries(task)) {
-			const el = fragment.querySelector(`.$(field)`);
+		// filling task fields
+		for (const [field, value] of Object.entries(taskFields)) {
+			if (field === "modifiedDate") continue;
+
+			const el = fragment.querySelector(`.${field}`);
 			el.value = value || "";
-			el.addEventListener("click", onEdit())
-		
+			el.addEventListener("onchange", () => actions.editTask(taskId, field, el.value));
 		}
+		
+		//fragment.querySelector(".delete-button").addEventListener("click", actions.deleteTask(taskId));
+		app.querySelector("#task-list").appendChild(fragment);
 	}
-	
-
-   for (const task of project.tasks) {
-
-
-
-
-	   for (const [prop, selector] of Object.entries(FIELDS)) {
-	     const el = fragment.querySelector(selector);
-			 el.value = task[prop] || ""; 
-			 el.addEventListener('change', () => onEdit(task.id, prop, el.value));
-	   }
-	   const statusEl = fragment.querySelector(".status");
-	   statusEl.textContent = "statuss: " + task.status;
-	   statusEl.addEventListener('click', () => onEdit(task.id, "priority", task.status === "active" ? "done" : "active" ));
-
-     app.querySelector("#task-list").appendChild(fragment);
-    }
 }
