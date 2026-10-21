@@ -85,10 +85,10 @@ export function renderTasks(project, actions) {
 
 			const el = fragment.querySelector(`.${field}`);
 			el.value = value || "";
-			el.addEventListener("onchange", () => actions.editTask(taskId, field, el.value));
+			el.addEventListener("change", () => actions.editTask(taskId, field, el.value));
 		}
 		
-		//fragment.querySelector(".delete-button").addEventListener("click", actions.deleteTask(taskId));
+		fragment.querySelector(".delete-button").addEventListener("click", () =>  actions.deleteTask(taskId));
 		app.querySelector("#task-list").appendChild(fragment);
 	}
 }

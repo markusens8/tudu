@@ -9,6 +9,12 @@ function setProjects($projects) {
 	file_put_contents("projects.json", json_encode($projects, JSON_PRETTY_PRINT));
 }
 
+function getInput() {
+	$json  = file_get_contents("php://input");
+	$data = json_decode($json, true);
+	return $data;
+}
+
 
 //header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
@@ -24,17 +30,25 @@ switch($method) {
 		);
 		
 		$projects = getProjects();
-		$projects["1234"]["tasks"][uniqid()] = $task;
+		$projects[$_POST["projectId"]]["tasks"][uniqid()] = $task;
 		setProjects($projects);
-
-		//var_dump($task);
-		var_dump($projects);
-
 		break;
-	case 'PUT':
-
+	case 'PATCH':
+		$data = getInput();
+		$projectId = $data["projectId"];
+		$taskId = $data["taskId"];
+		$field = $data["field"];
+		$value = $data["value"];
+		
+		$projects = getProjects();
+		$projects[$projectId]["tasks"][$taskId][$field] = $value;
+		setProjects($projects);
 		break;
 	case 'DELETE':
-		
+		$projects = getProjects();
+
+		$projectId = array_find_key($projects, function ($value, $key) {
+			array_find_key($value, function ($project, $tasks))	
+		});
 		break;
 }
