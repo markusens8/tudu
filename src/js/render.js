@@ -74,8 +74,12 @@ export function renderTasks(project, actions) {
 		e.target.reset();
 	});
 
+	app.querySelector("#filter-active").addEventListener("click", () => actions.setFilter("active"));
+	app.querySelector("#filter-done").addEventListener("click", () => actions.setFilter("done"));
+	app.querySelector("#filter-all").addEventListener("click", () => actions.setFilter("all"));
+	
+	
 
-	// adding new task
 	for (const [taskId, taskFields] of Object.entries(project.tasks)) {
 		const fragment = document.getElementById("task").content.cloneNode(true);
 
@@ -84,11 +88,26 @@ export function renderTasks(project, actions) {
 			if (field === "modifiedDate") continue;
 
 			const el = fragment.querySelector(`.${field}`);
-			el.value = value || "";
-			el.addEventListener("change", () => actions.editTask(taskId, field, el.value));
+
+			if (el.type === "checkbox")
+				el.checked = value === "done";
+			else
+				el.value = value || "";
+
+			el.addEventListener("change", () => {
+				if (el.type === "checkbox")
+					actions.editTask(taskId, field, el.checked ? "done" : "active");
+				else actions.editTask(taskId, field, el.value)
+			});
 		}
 		
 		fragment.querySelector(".delete-button").addEventListener("click", () =>  actions.deleteTask(taskId));
 		app.querySelector("#task-list").appendChild(fragment);
 	}
 }
+
+
+// el.checked = (value === "done");
+// el.value = value
+// el.addEventListener("change", () => actions.editTask(taskId, field, value === "active" ? "done" : "active"))
+// statusEl.addEventListener("change" () => e.target.value = (e.target.checked ? "done" : "active"));

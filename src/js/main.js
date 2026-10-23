@@ -35,6 +35,20 @@ function changeFilter(filter) {
 	refresh();
 }
 
+function getProject() {
+	/*
+	let project = projects[state.currentProjectId];
+	project.tasks = project.tasks.filter(task => {
+		if (state.filter === "done") return task.status === "done";
+		if (state.filter === "active") return task.status === "active";
+		return truel
+	});
+	*/
+
+	let project = {...projects[state.currentProjectId]};
+
+	return project;
+}
 
 
 // ----------------- CRUD OPERATIONS ------------------------
@@ -79,6 +93,7 @@ const taskActions = {
 	"createTask": createTask,
 	"editTask": editTask,
 	"deleteTask": deleteTask,
+	"changeFilter": changeFilter
 };
 
 const projectActions = {
@@ -93,7 +108,7 @@ const draw = {
 	"login": null,
 	"home": () => render.renderHome( getUrgentTasks(), getRecentlyModifiedTasks() ),
 	"projects": () => render.renderProjects( projects, projectActions),
-	"tasks": () => render.renderTasks( projects[state.currentProjectId], taskActions)
+	"tasks": () => render.renderTasks( getProject(), taskActions)
 };
 
 async function refresh() {
@@ -103,7 +118,6 @@ async function refresh() {
 
 
 // -------------------------------- NAVIGATOR MENU SETUP --------------------!
-
 document.getElementById("home-navigator").addEventListener("click", () => {
 	state.view = "home";	
 	refresh();

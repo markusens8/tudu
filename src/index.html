@@ -61,14 +61,40 @@
       <ul id="task-list"></ul>
     </template>
 
-    <!-- an individual task -->
+        <!-- an individual task -->
     <template id="task">
-      <input class="title">
-      <input class="description">
-      <p>termiņš:    <input class="dueDate" type="datetime-local"></p>
-      <p>prioritāte: <input class="priority"></p>
-      <p >statuss:   <input class="status" type="checkbox" value="active"></p>
+      <label>
+        nosaukums:
+        <input class="title" name="title">
+      </label>
+
+      <label>
+        apraksts:
+        <input class="description">
+      </label>
+
+      <label>
+        termiņš:
+        <input class="dueDate" type="datetime-local">
+      </label>
+
+      <label>
+        prioritāte:
+        <select class="priority">
+          <option value="low">low</option>
+          <option value="medium">medium</option>
+          <option value="high">high</option>
+        </select>
+      </label>
+
+      <label>
+        pabeigts:
+        <input class="status" type="checkbox">
+      </label>
+
       <button class="delete-button">dzēst</button>
+      <br></br>
     </template>
+    
   </body>
 </html>

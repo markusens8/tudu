@@ -15,6 +15,13 @@ function getInput() {
 	return $data;
 }
 
+function findProjectId($targetTaskId) {
+	$projects = getProjects();
+	foreach ($projects as $projectId => $projectValues)
+		foreach($projectValues["tasks"] as $taskId => $taskValues)
+			if ($taskId == $targetTaskId) return $projectId;
+}
+
 
 //header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
@@ -46,9 +53,10 @@ switch($method) {
 		break;
 	case 'DELETE':
 		$projects = getProjects();
-
-		$projectId = array_find_key($projects, function ($value, $key) {
-			array_find_key($value, function ($project, $tasks))	
-		});
+		$taskId = trim($_SERVER['PATH_INFO'], '/');
+		$projectId = findProjectId($taskId);
+		unset($projects[$projectId]["tasks"][$taskId]);
+		
+		setProjects($projects);
 		break;
 }

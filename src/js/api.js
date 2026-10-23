@@ -38,7 +38,7 @@ export async function createTask(task) {
 
 export async function deleteTask(id) {
 	await fetch(`backend/tasks.php/${id}`, { 
-		method: 'DELETE',
+		method: 'DELETE'
 	});
 }
 

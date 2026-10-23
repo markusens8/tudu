@@ -2,28 +2,12 @@
     "12345": {
         "title": "mans projekts23",
         "tasks": {
-            "67": {
-                "description": "youa",
-                "dueDate": "2026-10-31T14:30",
-                "modifiedDate": null,
-                "priority": "high",
-                "status": "active",
-                "title": "letsgetituua"
-            },
-            "6ad8a1612dc29": {
-                "title": "new shi",
-                "description": "",
+            "6adaffb941d58": {
+                "title": "glii",
+                "description": "aysgdjak",
                 "dueDate": "",
-                "modifiedDate": "21.10.2026 11:26",
+                "modifiedDate": "23.10.2026 06:33",
                 "priority": "low",
-                "status": "active"
-            },
-            "6ad8a1cc8c0ac": {
-                "title": "divains",
-                "description": "divans",
-                "dueDate": "2026-10-22T14:27",
-                "modifiedDate": "21.10.2026 11:28",
-                "priority": "medium",
                 "status": "active"
             }
         }

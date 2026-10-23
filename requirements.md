@@ -31,7 +31,7 @@ Izstrādāt pilnvērtīgu To-Do Planner tipa sistēmu ar lietotāju autentifikā
 
     Norādīt prioritāti: Low, Medium vai High. | IR
 
-    Apskatīt savus aktīvos un pabeigtos uzdevumus. | IR
+    Apskatīt savus aktīvos un pabeigtos uzdevumus. | 
 
 2.3. Dashboard
     Pēc pieslēgšanās lietotājam jābūt pieejamam pārskatāmam dashboard.  
