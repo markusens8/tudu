@@ -4,10 +4,18 @@
         "tasks": {
             "6adaffb941d58": {
                 "title": "glii",
-                "description": "aysgdjak",
-                "dueDate": "",
-                "modifiedDate": "23.10.2026 06:33",
+                "description": "aysgdjakk,jshdhjf",
+                "dueDate": "2026-11-07T11:04",
+                "modifiedDate": "26.10.2026 09:35",
                 "priority": "low",
+                "status": "active"
+            },
+            "6adf0d8cc1fcf": {
+                "title": "mans jaunais uzdevumss",
+                "description": "ju",
+                "dueDate": "2026-11-05T11:06",
+                "modifiedDate": "26.10.2026 09:06",
+                "priority": "high",
                 "status": "active"
             }
         }
@@ -17,9 +25,9 @@
         "tasks": {
             "6ad8a1ec64e63": {
                 "title": "nju",
-                "description": "bu",
+                "description": "bubua",
                 "dueDate": "",
-                "modifiedDate": "21.10.2026 11:28",
+                "modifiedDate": "26.10.2026 09:35",
                 "priority": "low",
                 "status": "active"
             }

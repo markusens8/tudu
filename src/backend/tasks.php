@@ -49,6 +49,7 @@ switch($method) {
 		
 		$projects = getProjects();
 		$projects[$projectId]["tasks"][$taskId][$field] = $value;
+		$projects[$projectId]["tasks"][$taskId]["modifiedDate"] = date("d.m.Y H:i");
 		setProjects($projects);
 		break;
 	case 'DELETE':
