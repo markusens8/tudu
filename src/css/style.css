@@ -1,9 +1,5 @@
 nav {
-    display:flex;
+    display: flex;
     flex-direction: row;
     gap: 1rem;
-}
-
-input:read-only {
-    background-color: grey;
 }

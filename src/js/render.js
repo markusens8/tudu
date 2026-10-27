@@ -2,21 +2,27 @@ const app = document.getElementById("app");
 
 // --------------------- HOME ------------------
 
-export function renderHome(urgentTasks, recentlyModifiedTasks) {
+export function renderHome(tasks, actions, filter) {
   app.replaceChildren(document.getElementById("home").content.cloneNode(true));
-  renderHomeUrgentList(urgentTasks);
-  renderHomeModifiedList(recentlyModifiedTasks);
+  renderHomeUrgentList(tasks.urgentTasks);
+  renderHomeModifiedList(tasks.recentlyModifiedTasks);
+
+  app.querySelector("#priority-button").addEventListener("click", () => actions.changeHomeFilter("priority"));
+  app.querySelector("#dueDate-button").addEventListener("click", () => actions.changeHomeFilter("dueDate"));
+
+  app.querySelector("#priority-button").disabled = filter === "priority";
+  app.querySelector("#dueDate-button").disabled = filter === "dueDate";
 }
 
 function renderHomeUrgentList(urgentTasks) {
   for (const task of urgentTasks) {
     const li = document.createElement("li");
-	const projectTitle = document.createElement("h4");
+	  const projectTitle = document.createElement("h4");
     const taskTitle = document.createElement("h5");
     const priority = document.createElement("p");
     const dueDate = document.createElement("p");
 
-	projectTitle.textContent = task.projectTitle;
+	  projectTitle.textContent = task.projectTitle;
     taskTitle.textContent = task.title;
     priority.textContent = "priority: " + task.priority;
     dueDate.textContent = "termiņš: " + (task.dueDate || "-");
@@ -29,11 +35,11 @@ function renderHomeUrgentList(urgentTasks) {
 function renderHomeModifiedList(recentlyModifiedTasks) {
   for (const task of recentlyModifiedTasks) {
     const li = document.createElement("li");
-	const projectTitle = document.createElement("h4");
+	  const projectTitle = document.createElement("h4");
     const taskTitle = document.createElement("h5");
     const modifiedDate = document.createElement("p");
 
-	projectTitle.textContent = task.projectTitle;
+	  projectTitle.textContent = task.projectTitle;
     taskTitle.textContent = task.title;
     modifiedDate.textContent = "pedejoreiz modificets: " + task.modifiedDate;
 

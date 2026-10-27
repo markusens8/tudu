@@ -31,7 +31,7 @@ switch($method) {
 			"title"        => $_POST["title"],
 			"description"  => $_POST["description"],
 			"dueDate"      => $_POST["dueDate"],
-			"modifiedDate" => date("d.m.Y H:i"),
+			"modifiedDate" => date("c"),
 			"priority"     => $_POST["priority"],
 			"status"       => "active",
 		);
@@ -49,7 +49,7 @@ switch($method) {
 		
 		$projects = getProjects();
 		$projects[$projectId]["tasks"][$taskId][$field] = $value;
-		$projects[$projectId]["tasks"][$taskId]["modifiedDate"] = date("d.m.Y H:i");
+		$projects[$projectId]["tasks"][$taskId]["modifiedDate"] = date("c");
 		setProjects($projects);
 		break;
 	case 'DELETE':

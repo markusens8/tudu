@@ -34,13 +34,13 @@ Izstrādāt pilnvērtīgu To-Do Planner tipa sistēmu ar lietotāju autentifikā
     Apskatīt savus aktīvos un pabeigtos uzdevumus. | IR
 
 2.3. Dashboard
-    Pēc pieslēgšanās lietotājam jābūt pieejamam pārskatāmam dashboard.  
+    Pēc pieslēgšanās lietotājam jābūt pieejamam pārskatāmam dashboard. | ir
 
-    Jābūt redzamiem aktuālajiem uzdevumiem. | 
+    Jābūt redzamiem aktuālajiem uzdevumiem. | ir
 
     Jābūt iespējai atdalīt pabeigtos un nepabeigtos uzdevumus.
 
-    Jābūt iespējai filtrēt vai kārtot uzdevumus pēc vismaz viena kritērija (piemēram, prioritātes vai termiņa). | 
+    Jābūt iespējai filtrēt vai kārtot uzdevumus pēc vismaz viena kritērija (piemēram, prioritātes vai termiņa). | ir
 
 2.4. Kopīgie projekti un sadarbība
     Lietotājs var izveidot projektu. | IR

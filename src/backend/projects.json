@@ -3,18 +3,34 @@
         "title": "mans projekts23",
         "tasks": {
             "6adaffb941d58": {
-                "title": "glii",
+                "title": "gliis",
                 "description": "aysgdjakk,jshdhjf",
                 "dueDate": "2026-11-07T11:04",
-                "modifiedDate": "26.10.2026 09:35",
+                "modifiedDate": "2026-10-27T07:53:53+00:00",
                 "priority": "low",
                 "status": "active"
             },
             "6adf0d8cc1fcf": {
                 "title": "mans jaunais uzdevumss",
-                "description": "ju",
+                "description": "jus",
                 "dueDate": "2026-11-05T11:06",
-                "modifiedDate": "26.10.2026 09:06",
+                "modifiedDate": "2026-10-27T07:53:56+00:00",
+                "priority": "high",
+                "status": "active"
+            },
+            "6ae05db0cea34": {
+                "title": "mans jauninais",
+                "description": "s",
+                "dueDate": "2026-10-28T10:19",
+                "modifiedDate": "2026-10-27T08:19:17+00:00",
+                "priority": "low",
+                "status": "active"
+            },
+            "6ae05e9a743d6": {
+                "title": "the kun kun kun",
+                "description": "",
+                "dueDate": "",
+                "modifiedDate": "2026-10-27T08:19:38+00:00",
                 "priority": "high",
                 "status": "active"
             }
@@ -24,10 +40,10 @@
         "title": "new project",
         "tasks": {
             "6ad8a1ec64e63": {
-                "title": "nju",
+                "title": "njud",
                 "description": "bubua",
                 "dueDate": "",
-                "modifiedDate": "26.10.2026 09:35",
+                "modifiedDate": "2026-10-27T07:54:00+00:00",
                 "priority": "low",
                 "status": "active"
             }
