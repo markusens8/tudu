@@ -8,7 +8,10 @@
   
   // we in there
   if (array_key_exists($email, $users) && $users[$email]["password"] == $password) {
+    session_start();
+    $_SESSION["email"] = $email;
+    $_SESSION["logged_in"] = true;
 
+    header("Location: index.html");
   }
-  else
-    echo "get out boy";
+  else echo "get out boy";

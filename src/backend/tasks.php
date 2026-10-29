@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (empty($_SESSION["logged_in"])) {
+  header("Location: login.html");
+  exit;
+}
+
 function getProjects() {
 	$json = file_get_contents("projects.json");
 	$projects = json_decode($json, true);
