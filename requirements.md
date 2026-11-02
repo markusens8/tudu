@@ -38,7 +38,7 @@ Izstrādāt pilnvērtīgu To-Do Planner tipa sistēmu ar lietotāju autentifikā
 
     Jābūt redzamiem aktuālajiem uzdevumiem. | ir
 
-    Jābūt iespējai atdalīt pabeigtos un nepabeigtos uzdevumus.
+    Jābūt iespējai atdalīt pabeigtos un nepabeigtos uzdevumus. | ir
 
     Jābūt iespējai filtrēt vai kārtot uzdevumus pēc vismaz viena kritērija (piemēram, prioritātes vai termiņa). | ir
 
