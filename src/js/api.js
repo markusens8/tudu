@@ -29,6 +29,13 @@ export async function deleteProject(id) {
 
 
 // ------------------------ TAAAAAAAAAAAAAAAAASKS -------------------
+export async function getTasks() {
+  const response = await fetch("/backend/tasks.php", {
+    method: 'GET'
+  });
+  return response.json();
+}
+
 export async function createTask(task) {
 	await fetch('backend/tasks.php', {
 		method: "POST",

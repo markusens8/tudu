@@ -1,8 +1,9 @@
 import * as api from "./api.js";
 import * as render from "./render.js"; 
 
-let projects = api.getProjects(); 
-let state = {view: "home", currentProjectId: null, homeFilter: "priority", filter: "active"};
+let projects = api.getProjects();
+let tasks = api.getTasks();
+let state = {view: "projects", currentProjectId: null, homeFilter: "priority", filter: "active"};
 
 
 // ---------------------------- STATE STUFF ------------------------------------- 
@@ -29,6 +30,7 @@ function getUrgentTasks() {
 	const msToDays = (ms) => ms / 1000 / 60 / 60 / 24;
 	const getDaysUntilDate = (date) => Math.floor( msToDays(new Date(date).getTime()  -  Date.now()) ); 
 
+
 	let urgentTasks = [];
 	for (const [projectId, project] of Object.entries(projects))
 		for (const [taskId, task] of Object.entries(project.tasks)) {
@@ -38,12 +40,14 @@ function getUrgentTasks() {
 			else if (task.priority === "high")
 				urgentTasks.push({taskId, projectTitle: project.title, ...task});
 		}
+
 	return urgentTasks;
 }
 
 function getRecentlyModifiedTasks() {
 	const unixTime = (date) => new Date(date).getTime();
 
+  
 	let recentlyModifiedTasks = [];
 	for (const [projectId, project] of Object.entries(projects))
 		for (const [taskId, task] of Object.entries(project.tasks))
@@ -54,19 +58,21 @@ function getRecentlyModifiedTasks() {
 }
 
 // formats the project for tasks section
-function getProject() {
-	let project = {...projects[state.currentProjectId]};
+function getTasks() {
+	let projectTasks = {...tasks};
 
-	//removing modifiedDate for the renderer and filtering
-	for (const taskId of Object.keys(project.tasks)) {
-		delete project.tasks[taskId]["modifiedDate"];
+
+	for (const [taskId, task] of Object.entries(projectTasks)) {
+
+		if (task.project_id !== state.currentProjectId) 
+      delete projectTasks[taskId];
 		
-		const taskStatus = project.tasks[taskId]["status"];
-		if (taskStatus !== state.filter && state.filter !== "all") 
-			delete project.tasks[taskId];
+
+		if (task.status !== state.filter && state.filter !== "all") 
+			delete projectTasks[taskId];
 	}
 
-	return project;
+	return tasks;
 }
 
 
@@ -133,11 +139,17 @@ const draw = {
 	"login": null,
 	"home": () => render.renderHome( {urgentTasks: getUrgentTasks(), recentlyModifiedTasks: getRecentlyModifiedTasks()}, homeActions, state.homeFilter),
 	"projects": () => render.renderProjects( projects, projectActions),
-	"tasks": () => render.renderTasks( getProject(), taskActions, state.filter)
+	"tasks": () => render.renderTasks( getTasks(), taskActions, state.filter)
 };
 
 async function refresh() {
 	projects = await api.getProjects();
+  tasks = await api.getTasks();
+
+  console.log("these da tasks");
+  console.log(tasks);
+
+
 	draw[state.view]();	
 }
 

@@ -74,9 +74,9 @@ export function renderProjects(projects, actions) {
 }
 
 // ------------------------ TASKS -----------------------------
-export function renderTasks(project, actions, filter) {
+export function renderTasks(tasks, actions, filter) {
   app.replaceChildren(document.getElementById("tasks").content.cloneNode(true));
-  app.querySelector("h1").textContent = project.title;
+  //app.querySelector("h1").textContent = project.title;
 
   app.querySelector("#task-form").addEventListener("submit", (e) => {
     e.preventDefault();
@@ -93,11 +93,13 @@ export function renderTasks(project, actions, filter) {
   app.querySelector("#filter-all").disabled = filter === "all";
 
 
-  for (const [taskId, taskFields] of Object.entries(project.tasks)) {
+  for (const [taskId, taskFields] of Object.entries(tasks)) {
     const fragment = document.getElementById("task").content.cloneNode(true);
 
     // filling task fields
     for (const [field, value] of Object.entries(taskFields)) {
+      if (field === "modified_date") continue;
+      
       const el = fragment.querySelector(`.${field}`);
 
       if (el.type === "checkbox")

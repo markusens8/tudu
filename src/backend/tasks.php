@@ -1,9 +1,13 @@
 <?php
+require_once './db.php';
+
+/*
 session_start();
 if (empty($_SESSION["logged_in"])) {
   header("Location: login.html");
   exit;
 }
+*/
 
 function getProjects() {
 	$json = file_get_contents("projects.json");
@@ -32,6 +36,22 @@ function findProjectId($targetTaskId) {
 //header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
 switch($method) {
+  case 'GET':
+    $result = executeQuery("SELECT * FROM tasks");
+
+    $data = [];
+
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+      $task_id = row['task_id'];
+      unset($row['task_id']);
+
+      $data[$task_id] = $row;
+    }
+
+    echo json_encode($data);
+    break;
+
+
 	case 'POST':
 		$task = array(
 			"title"        => $_POST["title"],
@@ -42,10 +62,21 @@ switch($method) {
 			"status"       => "active",
 		);
 		
-		$projects = getProjects();
-		$projects[$_POST["projectId"]]["tasks"][uniqid()] = $task;
-		setProjects($projects);
+    executeQuery(
+      "INSERT INTO tasks (project_id, title, description, due_date, priority)
+      VALUES (:project_id, :title, :description, :due_date, :priority)",
+
+      [
+        ':project_id' => $_POST['projectId'],
+        ':title' => $_POST['title'],
+        ':description' => $_POST['description'],
+        ':due_date' => $_POST['dueDate'],
+        ':priority' => $_POST['priority']
+      ]
+    );
 		break;
+
+
 	case 'PATCH':
 		$data = getInput();
 		$projectId = $data["projectId"];
@@ -58,12 +89,16 @@ switch($method) {
 		$projects[$projectId]["tasks"][$taskId]["modifiedDate"] = date("c");
 		setProjects($projects);
 		break;
+
+
 	case 'DELETE':
-		$projects = getProjects();
 		$taskId = trim($_SERVER['PATH_INFO'], '/');
-		$projectId = findProjectId($taskId);
-		unset($projects[$projectId]["tasks"][$taskId]);
 		
-		setProjects($projects);
+    executeQuery(
+      "DELETE FROM tasks WHERE task_id = :task_id",
+      
+      ['task_id' => taskId]
+    );
+
 		break;
 }

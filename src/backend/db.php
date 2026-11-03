@@ -30,20 +30,28 @@ $creationStatements = [
     status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'done')),
 
     FOREIGN KEY (project_id) REFERENCES projects(project_id)
-  )"
+  )",
+
+  "
+  CREATE TRIGGER update_edited_at
+  AFTER UPDATE ON tasks
+  FOR EACH ROW
+  BEGIN
+    UPDATE tasks 
+    SET modified_date = CURRENT_TIMESTAMP
+    WHERE task_id = new.task_id;
+  END
+  "
 ];
-
-
 
 $db = new SQLite3('./database/my.db');
 
+/*
+foreach($creationStatements as $statement) 
+  $db->exec($statement);
 
-function createTables() {
-  global $db;
-
-  foreach($creationStatements as $statement) 
-    $db->exec($statement);
-}
+$db->exec($creationStatements[4]);
+*/
 
 
 function executeQuery($sql, $params = []) {
@@ -51,5 +59,8 @@ function executeQuery($sql, $params = []) {
 
   $query = $db->prepare($sql);
 
-  return $query->execute($params);
+  foreach ($params as $key => $value)
+    $query->bindValue($key, $value);
+
+  return $query->execute();
 }
