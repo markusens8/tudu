@@ -49,9 +49,9 @@ export async function deleteTask(id) {
 	});
 }
 
-export async function editTask(projectId, taskId, field, value) {
+export async function editTask(taskId, field, value) {
 	await fetch("backend/tasks.php", {
 		method: 'PATCH',
-		body: JSON.stringify({projectId, taskId, field, value})
+		body: JSON.stringify({taskId, field, value})
 	});
 }

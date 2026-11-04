@@ -32,14 +32,17 @@ function getUrgentTasks() {
 
 
 	let urgentTasks = [];
-	for (const [projectId, project] of Object.entries(projects))
-		for (const [taskId, task] of Object.entries(project.tasks)) {
-	
-			if (state.homeFilter === "dueDate" && getDaysUntilDate(task.dueDate) <= 10)
-				urgentTasks.push({taskId, projectTitle: project.title, ...task});
-			else if (task.priority === "high")
-				urgentTasks.push({taskId, projectTitle: project.title, ...task});
-		}
+  for (const task of Object.values(tasks)) {
+    if (task.status === "done") continue;
+
+
+    if (state.homeFilter === "dueDate" && getDaysUntilDate(task.due_date) <= 10)
+      urgentTasks.push({projectTitle: projects[task.project_id].title, ...task});
+
+
+    else if (task.priority === "high")
+      urgentTasks.push({projectTitle: projects[task.project_id].title, ...task});
+  }
 
 	return urgentTasks;
 }
@@ -49,11 +52,14 @@ function getRecentlyModifiedTasks() {
 
   
 	let recentlyModifiedTasks = [];
-	for (const [projectId, project] of Object.entries(projects))
-		for (const [taskId, task] of Object.entries(project.tasks))
-			recentlyModifiedTasks.push({projectTitle: project.title, ...task});
+  for (const task of Object.values(tasks)) {
+    recentlyModifiedTasks.push({projectTitle: projects[task.project_id].title, ...task});
+  }
 	
-	recentlyModifiedTasks.sort((a, b) => unixTime(b.modifiedDate) - unixTime(a.modifiedDate));
+
+	recentlyModifiedTasks.sort((a, b) => unixTime(b.modified_date) - unixTime(a.modified_date));
+
+
 	return recentlyModifiedTasks;
 }
 
@@ -64,15 +70,15 @@ function getTasks() {
 
 	for (const [taskId, task] of Object.entries(projectTasks)) {
 
-		if (task.project_id !== state.currentProjectId) 
+		if (task.project_id != state.currentProjectId)
       delete projectTasks[taskId];
 		
-
 		if (task.status !== state.filter && state.filter !== "all") 
 			delete projectTasks[taskId];
 	}
 
-	return tasks;
+
+	return projectTasks;
 }
 
 
@@ -85,8 +91,6 @@ function createProject(title) {
 }
 
 function deleteProject(id) {
-	console.log("id in main.js");
-	console.log(id);
 	api.deleteProject(id);
 	refresh();
 }
@@ -104,7 +108,7 @@ function createTask(data) {
 
 function editTask(taskId, field, value) {
 	//console.log(state.currentProjectId + " " + taskId + " " + field + " " + value);
-	api.editTask(state.currentProjectId, taskId, field, value);	
+	api.editTask(taskId, field, value);	
 	refresh();
 }
 
@@ -137,17 +141,14 @@ const projectActions = {
 
 const draw = {
 	"login": null,
-	"home": () => render.renderHome( {urgentTasks: getUrgentTasks(), recentlyModifiedTasks: getRecentlyModifiedTasks()}, homeActions, state.homeFilter),
-	"projects": () => render.renderProjects( projects, projectActions),
-	"tasks": () => render.renderTasks( getTasks(), taskActions, state.filter)
+	"home": () => render.renderHome( {urgentTasks: getUrgentTasks(), recentlyModifiedTasks: getRecentlyModifiedTasks(), filter: state.homeFilter}, homeActions),
+	"projects": () => render.renderProjects( {projects}, projectActions),
+	"tasks": () => render.renderTasks( {tasks: getTasks(), filter: state.filter, projectTitle: projects[state.currentProjectId].title}, taskActions)
 };
 
 async function refresh() {
 	projects = await api.getProjects();
   tasks = await api.getTasks();
-
-  console.log("these da tasks");
-  console.log(tasks);
 
 
 	draw[state.view]();	

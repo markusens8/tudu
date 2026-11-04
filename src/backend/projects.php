@@ -14,8 +14,8 @@ switch($_SERVER['REQUEST_METHOD']) {
 	case 'GET':
     $result = executeQuery("SELECT * FROM projects");
 
-    $data = [];
 
+    $data = [];
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
       $project_id = $row['project_id'];
       unset($row['project_id']);

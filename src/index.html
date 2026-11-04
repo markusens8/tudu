@@ -3,100 +3,31 @@
 <html lang="lv">
   <head>
     <meta charset="UTF-8">
-    <title>tudu</title>
-		<script type="module" src="./js/main.js" defer></script>
-    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/auth.js" defer></script>
+    <title>Login</title>
   </head>
 
   <body>
-    <nav>
-      <h2 id="home-navigator">Sākums</h2>
-      <h2 id="projects-navigator">Projekti</h2>
-    </nav>
+    <h1>Autorizesanas</h1>
 
-    <main id="app"></main>
+    <h2>Register</h2>
+    <h2>Cau, ievadi infu</h2>
+    <form id="register-form" method="POST" action="backend/auth.php">
+      <input id="username" type="text" placeholder="vards" required>
+      <input id="email" type="email" placeholder="e-pasts" required>
+      <input id="password" type="text" placeholder="parole" required>
+      <button>nosutit uz galvenā pakalpojuma sniedzēju</button>
+    </form>
 
-    <!-- HOME SCREN -->
-    <template id="home">
-      <section>
-        <h3>urgent</h3>
-        <button id="priority-button">Prioritate</button>
-        <button id="dueDate-button">Termins</button>
-        <ul id="urgent-list"></ul>
-      </section>
-      
-      <section>
-        <h3>newest changes</h3>
-        <ul id="recently-modified-list"></ul>
-      </section>
-    </template>
 
-    <!-- PROJECTS LIST -->
-    <template id="projects">
-      <h1>Projekti</h1>
-      <input id="project-title-input" placeholder="ievadi projekta nosaukumu">
-      <button id="create-project">Izveidot projektu</button>
-      <ul id="project-list"></ul>
-    </template>
+    <h2>Login</h2>
+    <h2>Cau, ievadi infu</h2>
+    <form id="login-form" method="POST" action="backend/auth.php">
+      <input id="email" type="email" placeholder="e-pasts" required>
+      <input id="password" type="text" placeholder="parole" required>
+      <button>nosutit uz galvenā pakalpojuma sniedzēju</button>
+    </form>
 
-    <!-- TASK LIST -->
-    <template id="tasks">
-      <h1></h1>
-
-      <form id="task-form">
-        <input name="title" placeholder="ievadi uzdevumu">
-        <input name="description" placeholder="ievadi aprakstu">
-        <input name="dueDate" type="datetime-local">
-
-        <label for="priority-select">izvēlies prioritāti:</label>
-        <select name="priority" id="priority-select">
-          <option value="low">low</option>
-          <option value="medium">medium</option>
-          <option value="high">high</option>
-        </select>
-        <button id="create-task-button">Pievienot uzdevumu</button>
-      </form>
-
-      <button id="filter-active">Nepabeigtie</button>
-      <button id="filter-done">Pabeigtie</button>
-      <button id="filter-all">Visi</button>
-      <ul id="task-list"></ul>
-    </template>
-
-        <!-- an individual task -->
-    <template id="task">
-      <label>
-        nosaukums:
-        <input class="title" name="title">
-      </label>
-
-      <label>
-        apraksts:
-        <input class="description">
-      </label>
-
-      <label>
-        termiņš:
-        <input class="dueDate" type="datetime-local">
-      </label>
-
-      <label>
-        prioritāte:
-        <select class="priority">
-          <option value="low">low</option>
-          <option value="medium">medium</option>
-          <option value="high">high</option>
-        </select>
-      </label>
-
-      <label>
-        pabeigts:
-        <input class="status" type="checkbox">
-      </label>
-
-      <button class="delete-button">dzēst</button>
-      <br></br>
-    </template>
-    
+    <p id="message">Šeit tiks attēlots pieslēgšanās statuss</p>
   </body>
 </html>

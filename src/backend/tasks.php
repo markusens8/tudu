@@ -9,15 +9,6 @@ if (empty($_SESSION["logged_in"])) {
 }
 */
 
-function getProjects() {
-	$json = file_get_contents("projects.json");
-	$projects = json_decode($json, true);
-	return $projects;
-}
-
-function setProjects($projects) {
-	file_put_contents("projects.json", json_encode($projects, JSON_PRETTY_PRINT));
-}
 
 function getInput() {
 	$json  = file_get_contents("php://input");
@@ -25,24 +16,16 @@ function getInput() {
 	return $data;
 }
 
-function findProjectId($targetTaskId) {
-	$projects = getProjects();
-	foreach ($projects as $projectId => $projectValues)
-		foreach($projectValues["tasks"] as $taskId => $taskValues)
-			if ($taskId == $targetTaskId) return $projectId;
-}
-
 
 //header('Content-Type: application/json');
-$method = $_SERVER['REQUEST_METHOD'];
-switch($method) {
+switch($_SERVER['REQUEST_METHOD']) {
   case 'GET':
     $result = executeQuery("SELECT * FROM tasks");
 
     $data = [];
 
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-      $task_id = row['task_id'];
+      $task_id = $row['task_id'];
       unset($row['task_id']);
 
       $data[$task_id] = $row;
@@ -53,15 +36,6 @@ switch($method) {
 
 
 	case 'POST':
-		$task = array(
-			"title"        => $_POST["title"],
-			"description"  => $_POST["description"],
-			"dueDate"      => $_POST["dueDate"],
-			"modifiedDate" => date("c"),
-			"priority"     => $_POST["priority"],
-			"status"       => "active",
-		);
-		
     executeQuery(
       "INSERT INTO tasks (project_id, title, description, due_date, priority)
       VALUES (:project_id, :title, :description, :due_date, :priority)",
@@ -70,7 +44,7 @@ switch($method) {
         ':project_id' => $_POST['projectId'],
         ':title' => $_POST['title'],
         ':description' => $_POST['description'],
-        ':due_date' => $_POST['dueDate'],
+        ':due_date' => $_POST['due_date'],
         ':priority' => $_POST['priority']
       ]
     );
@@ -79,15 +53,18 @@ switch($method) {
 
 	case 'PATCH':
 		$data = getInput();
-		$projectId = $data["projectId"];
 		$taskId = $data["taskId"];
 		$field = $data["field"];
 		$value = $data["value"];
-		
-		$projects = getProjects();
-		$projects[$projectId]["tasks"][$taskId][$field] = $value;
-		$projects[$projectId]["tasks"][$taskId]["modifiedDate"] = date("c");
-		setProjects($projects);
+
+    executeQuery(
+      "UPDATE tasks SET $field = :value WHERE task_id = :task_id",
+
+      [
+        ':value' => $value,
+        ':task_id' => $taskId
+      ]
+    );
 		break;
 
 
@@ -97,7 +74,7 @@ switch($method) {
     executeQuery(
       "DELETE FROM tasks WHERE task_id = :task_id",
       
-      ['task_id' => taskId]
+      ['task_id' => $taskId]
     );
 
 		break;
