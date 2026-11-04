@@ -1,6 +1,5 @@
 <?php
 require_once './db.php';
-header("Content-Type: application/json");
 
 
 $result = executeQuery(
@@ -21,19 +20,18 @@ if ($result->fetchArray(SQLITE3_ASSOC)) {
 }
 
 
-
 http_response_code(201);
 
 executeQuery(
-  "INSERT INTO users(email, username, password) VALUES (:email, :username, :password)",
+  "INSERT INTO users(email, username, password_hash) VALUES (:email, :username, :password_hash)",
 
   [
-    ':email' => $_POST["email"],
-    ':username' => $_POST["username"],
-    ':password' => $_POST["password"]
+    ':email' => $_POST['email'],
+    ':username' => $_POST['username'],
+    ':password_hash' => $_POST['password']
   ]
 );
 
 echo json_encode([
-  "message" => "apsveicu, tu esi veiksmīgi izveidojis jaunu kontu"
+  "message" => "apsveicu, tu esi veiksmīgi izveidojis jaunu kontu, tagad tu vari iejiet savā kontā"
 ]);

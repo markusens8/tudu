@@ -1,13 +1,12 @@
 <?php
 require_once './db.php';
 
-/*
 session_start();
 if (empty($_SESSION["logged_in"])) {
   header("Location: login.html");
   exit;
 }
-*/
+
 
 
 function getInput() {
@@ -20,7 +19,15 @@ function getInput() {
 //header('Content-Type: application/json');
 switch($_SERVER['REQUEST_METHOD']) {
   case 'GET':
-    $result = executeQuery("SELECT * FROM tasks");
+    $result = executeQuery(
+      "SELECT tasks.* 
+      INNER JOIN projects ON tasks.project_id = projects.project_id
+      WHERE projects.user_id = :user_id",
+
+      [
+        ':user_id' => $_SESSION['user_id']
+      ]
+    );
 
     $data = [];
 

@@ -6,7 +6,7 @@ $creationStatements = [
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
     email VARCHAR(320) NOT NULL UNIQUE,
     username VARCHAR(30) NOT NULL UNIQUE,
-    password TEXT NOT NULL
+    password_hash TEXT NOT NULL
   )",
 
   "CREATE TABLE IF NOT EXISTS projects (
@@ -49,10 +49,7 @@ $db = new SQLite3('./database/my.db');
 /*
 foreach($creationStatements as $statement) 
   $db->exec($statement);
-
-$db->exec($creationStatements[4]);
 */
-
 
 function executeQuery($sql, $params = []) {
   global $db;

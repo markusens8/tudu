@@ -107,7 +107,6 @@ function createTask(data) {
 }
 
 function editTask(taskId, field, value) {
-	//console.log(state.currentProjectId + " " + taskId + " " + field + " " + value);
 	api.editTask(taskId, field, value);	
 	refresh();
 }
