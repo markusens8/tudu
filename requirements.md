@@ -4,17 +4,17 @@ Izstrādāt pilnvērtīgu To-Do Planner tipa sistēmu ar lietotāju autentifikā
 2. Obligātās prasības
 
 2.1. Lietotāju reģistrācija un pieslēgšanās
-    Lietotājs var izveidot jaunu kontu.
+    Lietotājs var izveidot jaunu kontu. | IR
 
-    Reģistrācijas laikā jānorāda vismaz vārds, e-pasts un parole.
+    Reģistrācijas laikā jānorāda vismaz vārds, e-pasts un parole. | IR
 
-    E-pastam jābūt unikālam.
+    E-pastam jābūt unikālam. | IR
 
-    Parole nedrīkst tikt glabāta datubāzē atklātā veidā.
+    Parole nedrīkst tikt glabāta datubāzē atklātā veidā. 
 
-    Lietotājs var pieslēgties un izrakstīties.
+    Lietotājs var pieslēgties un izrakstīties. | IR
 
-    Neautorizēts lietotājs nedrīkst piekļūt aizsargātām sistēmas daļām.
+    Neautorizēts lietotājs nedrīkst piekļūt aizsargātām sistēmas daļām. | datubāze ir atklāta un viegli pieejama ierakstot URL /backend/my.db taka
 
 2.2. Personīgie uzdevumi
     Izveidot uzdevumu. | IR

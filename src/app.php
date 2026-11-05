@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
+    header("Location: ./login.html");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 
 <html lang="lv">
@@ -12,6 +21,7 @@
     <nav>
       <h2 id="home-navigator">Sākums</h2>
       <h2 id="projects-navigator">Projekti</h2>
+      <button id="logout-button">izrakstities</button>
     </nav>
 
     <main id="app"></main>

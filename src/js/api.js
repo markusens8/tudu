@@ -55,3 +55,13 @@ export async function editTask(taskId, field, value) {
 		body: JSON.stringify({taskId, field, value})
 	});
 }
+
+
+//------------------------- USER STATE -------------
+export async function logOut() {
+  const response = await fetch("backend/logout.php", {
+    method: 'POST'
+  });
+
+  window.location.href = "../login.html";
+}

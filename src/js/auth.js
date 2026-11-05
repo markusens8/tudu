@@ -20,6 +20,7 @@ registerForm.addEventListener("submit", async (e) => {
 });
 
 
+
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -34,4 +35,7 @@ loginForm.addEventListener("submit", async (e) => {
     message.textContent = data.message;
     e.target.reset();
   }
+  else
+    window.location.href = "app.php";
+  
 });

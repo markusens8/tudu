@@ -166,5 +166,7 @@ document.getElementById("projects-navigator").addEventListener("click", () => {
 	refresh();
 });
 
+document.getElementById("logout-button").addEventListener("click", api.logOut)
+
 
 refresh();

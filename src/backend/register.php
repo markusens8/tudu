@@ -8,6 +8,7 @@ $result = executeQuery(
   [':email' => $_POST['email']]
 );
 
+
 // basically the user entered an email that already exists
 if ($result->fetchArray(SQLITE3_ASSOC)) {
   http_response_code(409);
@@ -17,6 +18,11 @@ if ($result->fetchArray(SQLITE3_ASSOC)) {
   ]);
 
   exit(1);
+}
+
+// the users password is weak
+if ($_POST['password'] ) {
+
 }
 
 

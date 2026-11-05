@@ -1,11 +1,6 @@
 <?php
 require_once './db.php';
-
 session_start();
-if (empty($_SESSION["logged_in"])) {
-  header("Location: login.html");
-  exit;
-}
 
 //header('Content-Type: application/json');
 
@@ -40,7 +35,7 @@ switch($_SERVER['REQUEST_METHOD']) {
     executeQuery(
       "INSERT INTO projects(user_id, title) VALUES (:user_id, :title)",
 
-      [':user_id' => 1, ":title" => $data['title']]
+      [':user_id' => $_SESSION['user_id'], ":title" => $data['title']]
     );
 		break;
 
