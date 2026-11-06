@@ -41,6 +41,11 @@ if (!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
         <h3>newest changes</h3>
         <ul id="recently-modified-list"></ul>
       </section>
+
+			<section>
+				<h3>uzaicinājumi</h3>
+				<ul id="invites-list"></ul>
+			</section>
     </template>
 
 
@@ -72,6 +77,14 @@ if (!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
         </select>
         <button id="create-task-button">Pievienot uzdevumu</button>
       </form>
+
+			<form id="invite-form">
+				<label>
+					uzaicini cilvēku:
+					<input name="username"/>
+				</label>
+				<button>iehujari</button>
+			</form>
 
       <button id="filter-active">Nepabeigtie</button>
       <button id="filter-done">Pabeigtie</button>

@@ -13,15 +13,13 @@ function getInput() {
 //header('Content-Type: application/json');
 switch($_SERVER['REQUEST_METHOD']) {
   case 'GET':
-    $result = executeQuery(
-      "SELECT tasks.* FROM tasks
-      INNER JOIN projects ON tasks.project_id = projects.project_id
-      WHERE projects.user_id = :user_id",
+		$result = executeQuery(
+		"SELECT tasks.* FROM tasks
+		INNER JOIN project_members ON project_members.project_id = tasks.project_id
+		WHERE project_members.user_id = :user_id",
 
-      [
-        ':user_id' => $_SESSION['user_id']
-      ]
-    );
+		[':user_id' => $_SESSION['user_id']]
+		);
 
     $data = [];
 

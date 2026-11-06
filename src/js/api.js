@@ -28,6 +28,7 @@ export async function deleteProject(id) {
 
 
 
+
 // ------------------------ TAAAAAAAAAAAAAAAAASKS -------------------
 export async function getTasks() {
   const response = await fetch("/backend/tasks.php", {
@@ -57,6 +58,7 @@ export async function editTask(taskId, field, value) {
 }
 
 
+
 //------------------------- USER STATE -------------
 export async function logOut() {
   const response = await fetch("backend/logout.php", {
@@ -64,4 +66,33 @@ export async function logOut() {
   });
 
   window.location.href = "../login.html";
+}
+
+
+
+// --------------------------- INVITESSSSSSS ----------
+export async function getInvites() {
+	const response = await fetch("backend/invites.php", {
+		method: 'GET',
+	});
+	return response.json();
+}
+
+export async function sendInvite(data) {
+	const response = await fetch("backend/invites.php", {
+		method: 'POST',
+		body: data
+	});
+}
+
+export async function acceptInvite(inviteId) {
+	const response = await fetch(`backend/invites.php/${inviteId}`, {
+		method: 'PATCH',
+	});
+}
+
+export async function declineInvite(inviteId) {
+	await fetch (`backend/invites.php/${inviteId}`, {
+		method: 'DELETE'
+	});
 }

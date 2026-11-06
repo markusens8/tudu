@@ -3,7 +3,8 @@ import * as render from "./render.js";
 
 let projects = api.getProjects();
 let tasks = api.getTasks();
-let state = {view: "projects", currentProjectId: null, homeFilter: "priority", filter: "active"};
+let invites = api.getInvites();
+let state = {view: "home", currentProjectId: null, homeFilter: "priority", filter: "active"};
 
 
 // ---------------------------- STATE STUFF ------------------------------------- 
@@ -116,18 +117,33 @@ function deleteTask(id) {
 	refresh();
 }
 
+function sendInvite(data) {
+	data.append("projectId", state.currentProjectId);
+	api.sendInvite(data);
+	refresh();
+}
+
+function acceptInvite(accept, inviteId) {
+	if (accept) 
+		api.acceptInvite(inviteId);
+	else 
+		api.declineInvite(inviteId);
+	refresh();
+}
 
 
 // --------------------------------- DRAWING ------------------!
 const homeActions = {
-	"changeHomeFilter": changeHomeFilter
+	"changeHomeFilter": changeHomeFilter,
+	"acceptInvite": acceptInvite
 };
 
 const taskActions = {
 	"createTask": createTask,
 	"editTask": editTask,
 	"deleteTask": deleteTask,
-	"changeFilter": changeFilter
+	"changeFilter": changeFilter,
+	"sendInvite": sendInvite
 };
 
 const projectActions = {
@@ -140,7 +156,7 @@ const projectActions = {
 
 const draw = {
 	"login": null,
-	"home": () => render.renderHome( {urgentTasks: getUrgentTasks(), recentlyModifiedTasks: getRecentlyModifiedTasks(), filter: state.homeFilter}, homeActions),
+	"home": () => render.renderHome( {invites, urgentTasks: getUrgentTasks(), recentlyModifiedTasks: getRecentlyModifiedTasks(), filter: state.homeFilter}, homeActions),
 	"projects": () => render.renderProjects( {projects}, projectActions),
 	"tasks": () => render.renderTasks( {tasks: getTasks(), filter: state.filter, projectTitle: projects[state.currentProjectId].title}, taskActions)
 };
@@ -148,7 +164,7 @@ const draw = {
 async function refresh() {
 	projects = await api.getProjects();
   tasks = await api.getTasks();
-
+	invites = await api.getInvites();
 
 	draw[state.view]();	
 }

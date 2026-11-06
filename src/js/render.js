@@ -6,7 +6,7 @@ export function renderHome(data, actions) {
   app.replaceChildren(document.getElementById("home").content.cloneNode(true));
   renderHomeUrgentList(data.urgentTasks);
   renderHomeModifiedList(data.recentlyModifiedTasks);
-
+	renderInvitesList(data.invites, {acceptInvite: actions.acceptInvite});
   
   app.querySelector("#priority-button").addEventListener("click", () => actions.changeHomeFilter("priority"));
   app.querySelector("#dueDate-button").addEventListener("click", () => actions.changeHomeFilter("dueDate"));
@@ -15,8 +15,35 @@ export function renderHome(data, actions) {
   app.querySelector("#dueDate-button").disabled = data.filter === "dueDate";
 }
 
-function renderHomeUrgentList(urgentTasks) {
 
+
+function renderInvitesList(invites, actions) {
+	console.log("da invites");
+	console.log(invites);
+
+	for (const invite of invites) {
+		const li = document.createElement('li');
+		const username = document.createElement('h4');
+		const projectTitle = document.createElement('h5');
+		const accept = document.createElement('button');
+		const decline = document.createElement('button');
+
+		username.textContent = invite.username;
+		projectTitle.textContent = invite.projectTitle;
+		accept.textContent = "akceptēt ielūgumu";
+		decline.textContent = "pieklājīgi atteikt";
+
+		accept.addEventListener("click", () => actions.acceptInvite(true, invite.invite_id));	
+		decline.addEventListener("click", () => actions.acceptInvite(false, invite.invite_id));	
+
+		li.append(username, projectTitle, accept, decline);
+		app.querySelector("#invites-list").appendChild(li);
+	}
+}
+
+
+
+function renderHomeUrgentList(urgentTasks) {
   for (const task of urgentTasks) {
 
     const li = document.createElement("li");
@@ -35,8 +62,9 @@ function renderHomeUrgentList(urgentTasks) {
   }
 }
 
-function renderHomeModifiedList(recentlyModifiedTasks) {
 
+
+function renderHomeModifiedList(recentlyModifiedTasks) {
   for (const task of recentlyModifiedTasks) {
 
     const li = document.createElement("li");
@@ -89,6 +117,12 @@ export function renderTasks(data, actions) {
     actions.createTask(new FormData(e.target));
     e.target.reset();
   });
+
+	app.querySelector("#invite-form").addEventListener("submit", (e) => {
+		e.preventDefault();
+		actions.sendInvite(new FormData(e.target));
+		e.target.reset();
+	});
 
 
   app.querySelector("#filter-active").addEventListener("click", () => actions.changeFilter("active"));

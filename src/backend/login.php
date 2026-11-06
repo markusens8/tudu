@@ -3,18 +3,17 @@ require_once './db.php';
 session_start();
 
 $result = executeQuery(
-  "SELECT user_id FROM users WHERE email = :email AND password_hash = :password_hash",
+  "SELECT user_id, password_hash FROM users WHERE email = :email",
 
-  [
-    ':email' => $_POST['email'],
-    ':password_hash' => $_POST['password']
-  ]
+  [':email' => $_POST['email']]
 );
+
+
 
 $user = $result->fetchArray(SQLITE3_ASSOC);
 
 // da login failed
-if (!$user) {
+if (!$user || !password_verify($_POST['password'], $user['password_hash']) ) {
   http_response_code(401);
 
   echo json_encode([
@@ -31,9 +30,4 @@ http_response_code(200);
 session_regenerate_id(true);
 $_SESSION["logged_in"] = true;
 $_SESSION["user_id"] = $user["user_id"];
-
-error_log("WE ARE PRINTIIIIIIIIIIIIIIIIIIIIIIIIIIIIIING");
-error_log($_SESSION['user_id']);
-error_log($user['user_id']);
-
 exit(0);

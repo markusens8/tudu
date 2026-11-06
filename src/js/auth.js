@@ -12,11 +12,11 @@ registerForm.addEventListener("submit", async (e) => {
     body: new FormData(e.target)
   });
   
-
   const data = await response.json();
-
   message.textContent = data.message;
-  e.target.reset();
+
+	if (response.ok)
+	  e.target.reset();
 });
 
 
