@@ -3,31 +3,59 @@
 <html lang="lv">
   <head>
     <meta charset="UTF-8">
+    <title>Registresanas</title>
     <script src="./js/auth.js" defer></script>
-    <title>Login</title>
+    <link rel="stylesheet" href="./css/index.css">
   </head>
 
   <body>
-    <h1>Autorizesanas</h1>
-
-    <h2>Register</h2>
-    <h2>Cau, ievadi infu</h2>
-    <form id="register-form">
-      <input id="username" name="username" type="text" placeholder="lietotājvārds" required>
-      <input id="email" name="email" type="email" placeholder="e-pasts" required>
-      <input id="password" name="password" type="text" placeholder="parole" required>
-      <button>nosutit uz galvenā pakalpojuma sniedzēju</button>
-    </form>
+    <h1>čau, laiks verificēties sistēmā</h1>
 
 
-    <h2>Login</h2>
-    <h2>Cau, ievadi infu</h2>
-    <form id="login-form">
-      <input id="email" name="email" type="email" placeholder="e-pasts" required>
-      <input id="password" name="password" type="text" placeholder="parole" required>
-      <button>nosutit uz galvenā pakalpojuma sniedzēju</button>
-    </form>
+    <div id="auth">
 
+      <section >
+        <h2>reģistrēšanās</h2>
+
+        <form id="register-form">
+          <label>
+            lietotājvārds: 
+            <input id="username" name="username" type="text"required>
+          </label>
+          
+          <label>
+            e-pasts:
+            <input id="email" name="email" type="email" required>
+          </label>
+
+          <label>
+            parole:
+            <input id="password" name="password" type="password" required>
+          </label>
+          <button>nosutit uz galvenā pakalpojuma sniedzēju</button>
+        </form>
+      </section>
+
+
+      <section>
+        <h2>ielogošanās</h2>
+
+        <form id="login-form">
+          <label>
+            e-pasts:
+            <input id="email" name="email" type="email" required>
+          </label>
+          
+          <label>
+            parole:
+            <input id="password" name="password" type="password" required>
+          </label>
+          <button>nosutit uz galvenā pakalpojuma sniedzēju</button>
+        </form>
+
+      </section>
+      
+    </div>
     <p id="message">Šeit tiks attēlots pieslēgšanās statuss</p>
   </body>
 </html>

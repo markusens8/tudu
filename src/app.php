@@ -14,7 +14,7 @@ if (!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
     <meta charset="UTF-8">
     <title>tudu</title>
 		<script type="module" src="./js/main.js" defer></script>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/app.css">
   </head>
 
   <body>
@@ -30,22 +30,24 @@ if (!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
 
     <!-- HOME SCREN -->
     <template id="home">
-      <section>
-        <h3>urgent</h3>
-        <button id="priority-button">Prioritate</button>
-        <button id="dueDate-button">Termins</button>
-        <ul id="urgent-list"></ul>
-      </section>
-      
-      <section>
-        <h3>newest changes</h3>
-        <ul id="recently-modified-list"></ul>
-      </section>
+      <div id="home-div">
+        <section id='urgent'>
+          <h3>steidzami</h3>
+          <button id="priority-button">Prioritate</button>
+          <button id="dueDate-button">Termins</button>
+          <ul id="urgent-list"></ul>
+        </section>
+        
+        <section id='newest-changes'>
+          <h3>jaunākās izmaiņas</h3>
+          <ul id="recently-modified-list"></ul>
+        </section>
 
-			<section>
-				<h3>uzaicinājumi</h3>
-				<ul id="invites-list"></ul>
-			</section>
+        <section id='invites'>
+          <h3>uzaicinājumi</h3>
+          <ul id="invites-list"></ul>
+        </section>
+      </div>
     </template>
 
 
@@ -83,7 +85,7 @@ if (!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
 					uzaicini cilvēku:
 					<input name="username"/>
 				</label>
-				<button>iehujari</button>
+				<button>uzaicināt</button>
 			</form>
 
       <button id="filter-active">Nepabeigtie</button>
