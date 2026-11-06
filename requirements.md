@@ -4,17 +4,17 @@ Izstrādāt pilnvērtīgu To-Do Planner tipa sistēmu ar lietotāju autentifikā
 2. Obligātās prasības
 
 2.1. Lietotāju reģistrācija un pieslēgšanās
-    Lietotājs var izveidot jaunu kontu.
+    Lietotājs var izveidot jaunu kontu. | IR
 
-    Reģistrācijas laikā jānorāda vismaz vārds, e-pasts un parole.
+    Reģistrācijas laikā jānorāda vismaz vārds, e-pasts un parole. | IR
 
-    E-pastam jābūt unikālam.
+    E-pastam jābūt unikālam. | IR
 
-    Parole nedrīkst tikt glabāta datubāzē atklātā veidā.
+    Parole nedrīkst tikt glabāta datubāzē atklātā veidā. | IR 
 
-    Lietotājs var pieslēgties un izrakstīties.
+    Lietotājs var pieslēgties un izrakstīties. | IR
 
-    Neautorizēts lietotājs nedrīkst piekļūt aizsargātām sistēmas daļām.
+    Neautorizēts lietotājs nedrīkst piekļūt aizsargātām sistēmas daļām. | datubāze ir atklāta un viegli pieejama ierakstot URL /backend/my.db taka
 
 2.2. Personīgie uzdevumi
     Izveidot uzdevumu. | IR
@@ -38,31 +38,31 @@ Izstrādāt pilnvērtīgu To-Do Planner tipa sistēmu ar lietotāju autentifikā
 
     Jābūt redzamiem aktuālajiem uzdevumiem. | ir
 
-    Jābūt iespējai atdalīt pabeigtos un nepabeigtos uzdevumus.
+    Jābūt iespējai atdalīt pabeigtos un nepabeigtos uzdevumus. | ir
 
     Jābūt iespējai filtrēt vai kārtot uzdevumus pēc vismaz viena kritērija (piemēram, prioritātes vai termiņa). | ir
 
 2.4. Kopīgie projekti un sadarbība
     Lietotājs var izveidot projektu. | IR
 
-    Projekta īpašnieks var uzaicināt citus reģistrētus lietotājus.
+    Projekta īpašnieks var uzaicināt citus reģistrētus lietotājus. | IR
 
-    Uzaicinātais lietotājs var pieņemt vai noraidīt uzaicinājumu.
+    Uzaicinātais lietotājs var pieņemt vai noraidīt uzaicinājumu. | IR
 
-    Projektam var būt vairāki dalībnieki.
+    Projektam var būt vairāki dalībnieki. | IR
 
-    Projektā var izveidot kopīgus uzdevumus.
+    Projektā var izveidot kopīgus uzdevumus. | IR
 
-    Kopīgam uzdevumam var piešķirt konkrētu projekta dalībnieku.
+    Kopīgam uzdevumam var piešķirt konkrētu projekta dalībnieku. | na
 
-    Projekta dalībnieki var redzēt projektā esošos uzdevumus atbilstoši savām tiesībām.
+    Projekta dalībnieki var redzēt projektā esošos uzdevumus atbilstoši savām tiesībām. | na
 
 3. Drošība
-    Paroles nedrīkst glabāt atklātā veidā.
+    Paroles nedrīkst glabāt atklātā veidā. | ir
 
-    Jāvalidē lietotāja ievaddati.
+    Jāvalidē lietotāja ievaddati. 
 
-    Lietotājs nedrīkst piekļūt cita lietotāja privātajiem datiem vai uzdevumiem bez atbilstošām tiesībām.
+    Lietotājs nedrīkst piekļūt cita lietotāja privātajiem datiem vai uzdevumiem bez atbilstošām tiesībām. | ir iespejams viegli lejupieladet db caur url
 
 5. Lietotāja interfeiss
     Interfeisam jābūt pārskatāmam un saprotamam.

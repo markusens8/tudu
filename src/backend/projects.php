@@ -1,35 +1,64 @@
 <?php
-function getProjects() {
-	$json = file_get_contents("projects.json");
-	$projects = json_decode($json, true);
-	return $projects;
-}
-
-function setProjects($projects) {
-	file_put_contents("projects.json", json_encode((object)$projects, JSON_PRETTY_PRINT));
-}
+require_once './db.php';
+session_start();
 
 //header('Content-Type: application/json');
-$projects = getProjects();
-$method = $_SERVER['REQUEST_METHOD'];
-switch($method) {
+
+
+switch($_SERVER['REQUEST_METHOD']) {
 	case 'GET':
-		readfile("projects.json");
+    $result = executeQuery(
+			'SELECT projects.* FROM projects
+			INNER JOIN project_members
+			ON project_members.project_id = projects.project_id
+			WHERE project_members.user_id = :user_id',
+
+      [
+        ':user_id' => $_SESSION['user_id']
+      ]
+    );
+
+
+    $data = [];
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+      $project_id = $row['project_id'];
+      unset($row['project_id']);
+
+      $data[$project_id] = $row;
+    }
+  
+    echo json_encode($data);
 		break;
+    
+
+
 	case 'POST':
 		$raw = file_get_contents('php://input');
 		$data = json_decode($raw, true);
+    $result = executeQuery(
+      "INSERT INTO projects(title) VALUES (:title) RETURNING project_id",
 
-		$projects[uniqid()] = [
-			'title' => $data['title'],
-			'tasks' => []
-		];
-		setProjects($projects);
+      [":title" => $data['title']]
+    );
+		$projectId = $result->fetchArray(SQLITE3_ASSOC)['project_id']; 
+
+
+		executeQuery( 
+			"INSERT INTO project_members(project_id, user_id) VALUES (:project_id, :user_id)",
+
+			[':project_id' => $projectId, ':user_id' => $_SESSION['user_id']]
+		);
 		break;
+
+
+
 	case 'DELETE':
-		$id = trim($_SERVER['PATH_INFO'], '/');
-		unset($projects[$id]);
-		setProjects($projects);
+		$project_id = trim($_SERVER['PATH_INFO'], '/');
+
+    executeQuery(
+      "DELETE FROM projects WHERE project_id = :project_id",
+
+      [':project_id' => $project_id]
+    );
 		break;
 }
-

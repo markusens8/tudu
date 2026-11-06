@@ -1,13 +1,7 @@
 <?php
-function getProjects() {
-	$json = file_get_contents("projects.json");
-	$projects = json_decode($json, true);
-	return $projects;
-}
+require_once './db.php';
+session_start();
 
-function setProjects($projects) {
-	file_put_contents("projects.json", json_encode($projects, JSON_PRETTY_PRINT));
-}
 
 function getInput() {
 	$json  = file_get_contents("php://input");
@@ -15,49 +9,72 @@ function getInput() {
 	return $data;
 }
 
-function findProjectId($targetTaskId) {
-	$projects = getProjects();
-	foreach ($projects as $projectId => $projectValues)
-		foreach($projectValues["tasks"] as $taskId => $taskValues)
-			if ($taskId == $targetTaskId) return $projectId;
-}
-
 
 //header('Content-Type: application/json');
-$method = $_SERVER['REQUEST_METHOD'];
-switch($method) {
-	case 'POST':
-		$task = array(
-			"title"        => $_POST["title"],
-			"description"  => $_POST["description"],
-			"dueDate"      => $_POST["dueDate"],
-			"modifiedDate" => date("c"),
-			"priority"     => $_POST["priority"],
-			"status"       => "active",
+switch($_SERVER['REQUEST_METHOD']) {
+  case 'GET':
+		$result = executeQuery(
+		"SELECT tasks.* FROM tasks
+		INNER JOIN project_members ON project_members.project_id = tasks.project_id
+		WHERE project_members.user_id = :user_id",
+
+		[':user_id' => $_SESSION['user_id']]
 		);
-		
-		$projects = getProjects();
-		$projects[$_POST["projectId"]]["tasks"][uniqid()] = $task;
-		setProjects($projects);
+
+    $data = [];
+
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+      $task_id = $row['task_id'];
+      unset($row['task_id']);
+
+      $data[$task_id] = $row;
+    }
+
+    echo json_encode($data);
+    break;
+
+
+	case 'POST':
+    executeQuery(
+      "INSERT INTO tasks (project_id, title, description, due_date, priority)
+      VALUES (:project_id, :title, :description, :due_date, :priority)",
+
+      [
+        ':project_id' => $_POST['projectId'],
+        ':title' => $_POST['title'],
+        ':description' => $_POST['description'],
+        ':due_date' => $_POST['due_date'],
+        ':priority' => $_POST['priority']
+      ]
+    );
 		break;
+
+
 	case 'PATCH':
 		$data = getInput();
-		$projectId = $data["projectId"];
 		$taskId = $data["taskId"];
 		$field = $data["field"];
 		$value = $data["value"];
-		
-		$projects = getProjects();
-		$projects[$projectId]["tasks"][$taskId][$field] = $value;
-		$projects[$projectId]["tasks"][$taskId]["modifiedDate"] = date("c");
-		setProjects($projects);
+
+    executeQuery(
+      "UPDATE tasks SET $field = :value WHERE task_id = :task_id",
+
+      [
+        ':value' => $value,
+        ':task_id' => $taskId
+      ]
+    );
 		break;
+
+
 	case 'DELETE':
-		$projects = getProjects();
 		$taskId = trim($_SERVER['PATH_INFO'], '/');
-		$projectId = findProjectId($taskId);
-		unset($projects[$projectId]["tasks"][$taskId]);
 		
-		setProjects($projects);
+    executeQuery(
+      "DELETE FROM tasks WHERE task_id = :task_id",
+      
+      ['task_id' => $taskId]
+    );
+
 		break;
 }

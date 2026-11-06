@@ -28,7 +28,15 @@ export async function deleteProject(id) {
 
 
 
+
 // ------------------------ TAAAAAAAAAAAAAAAAASKS -------------------
+export async function getTasks() {
+  const response = await fetch("/backend/tasks.php", {
+    method: 'GET'
+  });
+  return response.json();
+}
+
 export async function createTask(task) {
 	await fetch('backend/tasks.php', {
 		method: "POST",
@@ -42,9 +50,49 @@ export async function deleteTask(id) {
 	});
 }
 
-export async function editTask(projectId, taskId, field, value) {
+export async function editTask(taskId, field, value) {
 	await fetch("backend/tasks.php", {
 		method: 'PATCH',
-		body: JSON.stringify({projectId, taskId, field, value})
+		body: JSON.stringify({taskId, field, value})
+	});
+}
+
+
+
+//------------------------- USER STATE -------------
+export async function logOut() {
+  const response = await fetch("backend/logout.php", {
+    method: 'POST'
+  });
+
+  window.location.href = "../login.html";
+}
+
+
+
+// --------------------------- INVITESSSSSSS ----------
+export async function getInvites() {
+	const response = await fetch("backend/invites.php", {
+		method: 'GET',
+	});
+	return response.json();
+}
+
+export async function sendInvite(data) {
+	const response = await fetch("backend/invites.php", {
+		method: 'POST',
+		body: data
+	});
+}
+
+export async function acceptInvite(inviteId) {
+	const response = await fetch(`backend/invites.php/${inviteId}`, {
+		method: 'PATCH',
+	});
+}
+
+export async function declineInvite(inviteId) {
+	await fetch (`backend/invites.php/${inviteId}`, {
+		method: 'DELETE'
 	});
 }

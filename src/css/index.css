@@ -1,0 +1,77 @@
+@font-face {
+  font-family: Nunito;
+  src: url("./assets/Nunito-Regular.ttf")
+}
+
+@font-face {
+  font-family: SegoeUI;
+  src: url("./assets/segoeui.ttf");
+}
+
+body {
+  background-image: url("./assets/login_background.png");
+  font-family: Nunito;
+  
+  color: rgb(255, 255, 255);
+  text-shadow: 0 0 3px white;
+
+  height: 100vh;
+  text-align: center;
+  overflow: hidden;
+}
+
+
+
+/* DIVS AND CLASSES AND IDS ------------------------------------------------------------------ */
+#auth {
+  display: flex;
+  gap: 1rem;
+  height: 70%; 
+  width: 50%;
+
+  margin: auto;
+}
+
+section {
+  flex: 1;
+  border: solid white 2px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px white;
+
+  background-color: rgba(0, 200, 0, 0.25);
+  backdrop-filter: blur(0.2rem);
+
+  transition: transform .3s;
+}
+
+button {
+  border-radius: 15px;
+  border-color: white;
+  border-width: 3px;
+  background-color: rgba(0, 200, 0, 0.25);
+  color: white;
+  box-shadow: 0 0 15px white;
+  text-shadow: 0 0 3px white;
+  font-size: 0.75rem;
+
+  padding: 1rem;
+
+  transition: transform .3s;
+}
+
+
+
+/* ELEMENTSSSSSSSSSSSSSSSSSSS ---------------------------------------------- */
+label {
+  display: block;
+  margin: 0.75rem auto;
+}
+
+section:hover {
+  transform: scale(1.01);
+}
+
+button:hover {
+  cursor: pointer;
+  transform: scale(1.01);
+}

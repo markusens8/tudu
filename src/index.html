@@ -3,100 +3,59 @@
 <html lang="lv">
   <head>
     <meta charset="UTF-8">
-    <title>tudu</title>
-		<script type="module" src="./js/main.js" defer></script>
-    <link rel="stylesheet" href="./css/style.css">
+    <title>Registresanas</title>
+    <script src="./js/auth.js" defer></script>
+    <link rel="stylesheet" href="./css/index.css">
   </head>
 
   <body>
-    <nav>
-      <h2 id="home-navigator">Sākums</h2>
-      <h2 id="projects-navigator">Projekti</h2>
-    </nav>
+    <h1>čau, laiks verificēties sistēmā</h1>
 
-    <main id="app"></main>
 
-    <!-- HOME SCREN -->
-    <template id="home">
+    <div id="auth">
+
+      <section >
+        <h2>reģistrēšanās</h2>
+
+        <form id="register-form">
+          <label>
+            lietotājvārds: 
+            <input id="username" name="username" type="text"required>
+          </label>
+          
+          <label>
+            e-pasts:
+            <input id="email" name="email" type="email" required>
+          </label>
+
+          <label>
+            parole:
+            <input id="password" name="password" type="password" required>
+          </label>
+          <button>nosutit uz galvenā pakalpojuma sniedzēju</button>
+        </form>
+      </section>
+
+
       <section>
-        <h3>urgent</h3>
-        <button id="priority-button">Prioritate</button>
-        <button id="dueDate-button">Termins</button>
-        <ul id="urgent-list"></ul>
+        <h2>ielogošanās</h2>
+
+        <form id="login-form">
+          <label>
+            e-pasts:
+            <input id="email" name="email" type="email" required>
+          </label>
+          
+          <label>
+            parole:
+            <input id="password" name="password" type="password" required>
+          </label>
+          <button>nosutit uz galvenā pakalpojuma sniedzēju</button>
+        </form>
+
       </section>
       
-      <section>
-        <h3>newest changes</h3>
-        <ul id="recently-modified-list"></ul>
-      </section>
-    </template>
-
-    <!-- PROJECTS LIST -->
-    <template id="projects">
-      <h1>Projekti</h1>
-      <input id="project-title-input" placeholder="ievadi projekta nosaukumu">
-      <button id="create-project">Izveidot projektu</button>
-      <ul id="project-list"></ul>
-    </template>
-
-    <!-- TASK LIST -->
-    <template id="tasks">
-      <h1></h1>
-
-      <form id="task-form">
-        <input name="title" placeholder="ievadi uzdevumu">
-        <input name="description" placeholder="ievadi aprakstu">
-        <input name="dueDate" type="datetime-local">
-
-        <label for="priority-select">izvēlies prioritāti:</label>
-        <select name="priority" id="priority-select">
-          <option value="low">low</option>
-          <option value="medium">medium</option>
-          <option value="high">high</option>
-        </select>
-        <button id="create-task-button">Pievienot uzdevumu</button>
-      </form>
-
-      <button id="filter-active">Nepabeigtie</button>
-      <button id="filter-done">Pabeigtie</button>
-      <button id="filter-all">Visi</button>
-      <ul id="task-list"></ul>
-    </template>
-
-        <!-- an individual task -->
-    <template id="task">
-      <label>
-        nosaukums:
-        <input class="title" name="title">
-      </label>
-
-      <label>
-        apraksts:
-        <input class="description">
-      </label>
-
-      <label>
-        termiņš:
-        <input class="dueDate" type="datetime-local">
-      </label>
-
-      <label>
-        prioritāte:
-        <select class="priority">
-          <option value="low">low</option>
-          <option value="medium">medium</option>
-          <option value="high">high</option>
-        </select>
-      </label>
-
-      <label>
-        pabeigts:
-        <input class="status" type="checkbox">
-      </label>
-
-      <button class="delete-button">dzēst</button>
-      <br></br>
-    </template>
-    
+    </div>
+    <p id="message">Šeit tiks attēlots pieslēgšanās statuss</p>
   </body>
 </html>
